@@ -442,7 +442,7 @@ pnpm test
 
 ## 15. Matriks Konfigurasi Lingkungan (Environment & Configuration Matrix)
 
-Dokumen ini menetapkan seluruh variabel konfigurasi yang wajib disiapkan di berkas `.env.example` dan lingkungan aplikasi monorepo.
+Dokumen ini menetapkan seluruh variabel konfigurasi yang wajib disiapkan di berkas `.env.example` dan lingkungan aplikasi monorepo. Panduan langkah demi langkah untuk memperoleh seluruh API Key dan endpoint ini dapat dibaca pada [CONFIG_GUIDE.md](./CONFIG_GUIDE.md).
 
 ### 15.1 Klasifikasi Sensitivitas Konfigurasi
 
