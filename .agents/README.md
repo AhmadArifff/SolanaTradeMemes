@@ -27,6 +27,10 @@ Folder `.agents/` ini berfungsi sebagai pusat aturan, prosedur kerja, bank kasus
 ├── skills/                   # Keahlian khusus proyek (On-Demand Skills)
 │   ├── solana-terminal-engine/   # Logika transaksi Solana v0 & PumpPortal
 │   └── crypto-vault-security/    # Kriptografi Web Crypto & IndexedDB terisolasi
+├── session-state/            # Status pelacak sesi aktif & batasan terkunci
+│   └── active-session.json   # SOT pelacakan PRD, milestone lolos, & aksi selanjutnya
+├── 02-session-state/         # Mirror session-state untuk kompatibilitas lintas agen
+│   └── active-session.json
 ├── knowledge/                # Bank kasus & mitigasi error
 │   ├── README.md                 # Panduan bank kasus
 │   └── terminal-cases.md         # Catatan bug, solusi rate limit RPC & PumpPortal

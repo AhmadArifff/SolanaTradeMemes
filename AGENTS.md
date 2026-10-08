@@ -64,3 +64,12 @@ Untuk pengerjaan proyek ini, agen mengorkestrasikan kombinasi skill global dan s
 
 * **[Knowledge Base Overview](./.agents/knowledge/README.md)**: Panduan rujukan teknis.
 * **[Daftar Kasus Bug & Solusi Terminal](./.agents/knowledge/terminal-cases.md)**: Preseden penanganan rate limit RPC Solana, PumpPortal quirks, dan pemulihan IndexedDB.
+
+---
+
+## 6. Pelacakan Status Sesi & Panduan Pengembangan
+
+* **[Active Session State](./.agents/session-state/active-session.json)**: Status pelacakan kemajuan PRD dan batasan arsitektur terkunci lintas tim.
+* **[DEVELOPMENT_GUIDE.md](./DEVELOPMENT_GUIDE.md)**: Panduan kolaborasi harian tim, alur kerja git branch dev, dan review gate 7 pilar.
+* **[CONFIG_GUIDE.md](./CONFIG_GUIDE.md)**: Panduan step-by-step setup RPC Helius, PumpPortal, DexScreener, dan variabel .env.local.
+

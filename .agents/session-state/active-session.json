@@ -1,0 +1,86 @@
+{
+  "session_id": "session-solana-terminal-20261009",
+  "project": "SolanaTradeMemes",
+  "version": "1.1.0",
+  "active_goal": "Setup tata kelola multi-agen, session state tracker, dokumentasi pengembangan tim (DEVELOPMENT_GUIDE.md & CONFIG_GUIDE.md), dan persiapan inisialisasi Monorepo Turborepo + pnpm",
+  "status": "IN_PROGRESS",
+  "branch": "dev",
+  "completed_milestones": [
+    {
+      "id": "M0_DOCS_AND_GOVERNANCE_INITIALIZATION",
+      "title": "Inisialisasi Blueprint PRD v1.1, AGENTS.md, CONFIG_GUIDE.md, DEVELOPMENT_GUIDE.md, dan .agents Governance Framework",
+      "prd_sections": [
+        "Seksi 1",
+        "Seksi 2",
+        "Seksi 3",
+        "Seksi 4",
+        "Seksi 5",
+        "Seksi 6",
+        "Seksi 7",
+        "Seksi 8",
+        "Seksi 9",
+        "Seksi 10",
+        "Seksi 11",
+        "Seksi 12",
+        "Seksi 13",
+        "Seksi 14"
+      ],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09"
+    }
+  ],
+  "established_constraints": [
+    "Branch Mandate: Seluruh pengembangan aktif, perbaikan bug, dan penambahan fitur WAJIB dilakukan di branch dev. Dilarang commit/push langsung ke main.",
+    "Pre-Dev Git Pull Mandate: Setiap memulai pekerjaan baru atau beralih sesi/device, WAJIB git pull --rebase origin dev terlebih dahulu untuk mencegah konflik kode.",
+    "Pure Client-Side Zero-Custody: Kunci privat TIDAK PERNAH dikirim ke backend Vercel, API PumpPortal, atau jaringan luar. Penandatanganan transaksi 100% di RAM peramban.",
+    "Strict Monorepo Boundary: apps/web untuk antarmuka terminal Next.js 15; packages/solana-engine untuk transaksi Solana v0 dan PumpPortal; packages/crypto-vault untuk enkripsi Web Crypto API dan IndexedDB tanpa dependensi jaringan; packages/types untuk skema Zod dan tipe; packages/ui untuk desain sistem Radix UI/Tailwind.",
+    "Web Crypto Isolation: Enkripsi kunci privat menggunakan PBKDF2 (SHA-256, 100.000 iterasi) + AES-GCM-256 dengan Salt 16-byte dan IV 12-byte unik per dompet di IndexedDB.",
+    "RAM Memory Purge: Saat sesi dikunci atau tab ditutup, buffer byte kunci di RAM wajib di-zero-out (buffer.fill(0)) dan referensi Keypair dibuang seketika.",
+    "Solana VersionedTransaction v0: Deserialisasi transaksi dari PumpPortal wajib menggunakan VersionedTransaction.deserialize(), dilarang memakai Transaction legacy.",
+    "Parallel Direct RPC Egress: Penyiaran multi-dompet menggunakan Promise.allSettled() ke Private RPC (Helius/QuickNode) dengan { skipPreflight: true, maxRetries: 3 }.",
+    "Adaptive Price Polling: TanStack Query melakukan polling harga tiap 5000ms saat tab aktif dan melambat ke 30000ms saat tab blur/hidden.",
+    "Trade Ledger & Realized PnL: Transaksi persisten di IndexedDB trade_history dengan kalkulasi Weighted Average Cost Basis saat SELL, serta opsi ekspor CSV/JSON.",
+    "Panic Sell All & Reserve Guard: Fitur darurat likuidasi 100% saldo token ke validator, serta proteksi saldo SOL cadangan (0.005 SOL) per dompet.",
+    "Bebas Em Dash (R-02): Dilarang keras menggunakan karakter em dash (U+2014) di dokumen markdown, UI copywriting, pesan error, nama berkas, maupun komentar kode. Gunakan tanda hubung (-) atau titik dua (:).",
+    "Zero Dead Code Policy: Bersihkan seluruh kode usang, berkas sementara, dan dependensi tidak terpakai pada setiap iterasi.",
+    "Continuous Session Sync: Setiap kali ada perubahan fitur atau prompt baru, wajib perbarui active-session.json, buat git commit, dan push ke origin dev agar agen di device/sesi lain tersinkronisasi."
+  ],
+  "next_recommended_actions": [
+    "Langkah 1: Selesai - Pembuatan DEVELOPMENT_GUIDE.md sebagai panduan komprehensif kolaborasi tim",
+    "Langkah 2: Selesai - Pembuatan active-session.json di .agents/session-state/ dan sinkronisasi ke git dev",
+    "Langkah 3: Inisialisasi Monorepo Turborepo + pnpm workspaces (package.json, turbo.json, pnpm-workspace.yaml)",
+    "Langkah 4: Pembuatan paket @repo/types (kontrak Zod schemas & TypeScript DTOs)",
+    "Langkah 5: Pembuatan paket @repo/crypto-vault (PBKDF2 + AES-GCM-256 + idb + Memory Purge + Vitest)",
+    "Langkah 6: Pembuatan paket @repo/solana-engine (PumpPortal client + v0 Signer + Promise.allSettled + Vitest)",
+    "Langkah 7: Pembuatan paket @repo/ui (Komponen Cyberpunk DeFi terminal)",
+    "Langkah 8: Integrasi apps/web (Next.js 15 Client SPA, TanStack Query 5s adaptive polling, Zustand, Panic Sell All, Trade Ledger)"
+  ],
+  "prd_tracking": {
+    "epic_1_crypto_vault": {
+      "name": "Manajemen Vault & Kriptografi Lokal",
+      "target_package": "packages/crypto-vault",
+      "status": "READY_FOR_SCAFFOLDING"
+    },
+    "epic_2_price_monitoring": {
+      "name": "Pemantauan Harga Real-Time 5 Detik & Portofolio",
+      "target_package": "apps/web",
+      "status": "PLANNED"
+    },
+    "epic_3_multi_wallet_execution": {
+      "name": "Eksekusi Multi-Wallet Paralel (PumpPortal trade-local & v0 Signer)",
+      "target_package": "packages/solana-engine",
+      "status": "READY_FOR_SCAFFOLDING"
+    },
+    "epic_4_trade_ledger_pnl": {
+      "name": "Buku Besar Riwayat & Realized PnL Tracker (IndexedDB & Export)",
+      "target_package": "apps/web",
+      "status": "PLANNED"
+    },
+    "epic_5_emergency_liquidation": {
+      "name": "Likuidasi Darurat Panic Sell All & Preset Eksekusi Cepat",
+      "target_package": "apps/web + packages/solana-engine",
+      "status": "PLANNED"
+    }
+  },
+  "last_updated": "2026-10-09T06:58:00+07:00"
+}
