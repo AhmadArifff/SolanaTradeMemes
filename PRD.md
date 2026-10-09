@@ -600,17 +600,20 @@ Bab ini mendefinisikan spesifikasi kebutuhan teknis untuk modul kecerdasan buata
 2. **Direct Browser-to-Provider Egress**: Permintaan inferensi dikirim langsung dari peramban pengguna ke REST API resmi penyedia yang mendukung CORS (atau menggunakan header peramban langsung seperti pada Anthropic direct browser access).
 3. **Provider Flexibility**: Pengguna dapat berganti penyedia dan model AI kapan saja tanpa perlu merestart sesi trading.
 
-### 17.2 Matriks Provider & Model yang Didukung
+### 17.2 Matriks Provider & Penemuan Model Real-Time (Dynamic Model Discovery)
 
-| Provider | Model Default & Opsi | Endpoint Tipe | Keunggulan Spesifik |
+Terminal tidak membatasi model secara kaku (hardcoded). Saat pengguna memasukkan API Key, sistem langsung melakukan pemanggilan asinkron ke endpoint resmi masing-masing penyedia (`/v1/models` atau `/v1beta/models`) untuk menarik seluruh katalog model yang aktif dan terbuka khusus untuk paket/tier akun pengguna secara real-time.
+
+| Provider | Endpoint Model Real-Time | Model Unggulan & Opsi Terkini | Keunggulan Spesifik |
 | :--- | :--- | :--- | :--- |
-| **Google Gemini** | `gemini-2.0-flash`, `gemini-1.5-flash`, `gemini-1.5-pro` | Google Generative API | Kecepatan inferensi tinggi, jendela konteks masif, dan biaya sangat terjangkau. |
-| **OpenAI** | `gpt-4o-mini`, `gpt-4o` | OpenAI REST API | Penalaran semantik yang teruji dan kepatuhan instruksi format JSON yang presisi. |
-| **Anthropic Claude**| `claude-3-5-haiku`, `claude-3-5-sonnet` | Anthropic Messages API | Kemampuan analisis kritis tingkat tinggi dan penulisan ulasan yang tidak bertele-tele. |
-| **DeepSeek** | `deepseek-chat` (V3), `deepseek-reasoner` (R1) | OpenAI Compatible | Biaya sangat murah dengan penalaran matematis dan deteksi kode cerdas. |
-| **Moonshot Kimi** | `moonshot-v1-8k`, `moonshot-v1-32k` | OpenAI Compatible | Pemahaman konteks panjang dan narasi pasar Asia/global. |
-| **OpenRouter** | `openrouter/auto`, `meta-llama/llama-3.3-70b` | OpenAI Compatible | Satu kunci API untuk mengakses ratusan model open-source dan komersial sekaligus. |
-| **Groq** | `llama-3.3-70b-versatile`, `mixtral-8x7b-32768` | OpenAI Compatible | Kecepatan inferensi ultra-tinggi (>300 token per detik) untuk respons hampir instan. |
+| **Google Gemini** | `v1beta/models?key={key}` | `gemini-2.0-flash`, `gemini-1.5-flash`, `gemini-2.0-pro` | Penarikan dinamis seluruh model Google AI Studio dengan informasi limit token input/output hingga 1M+ token. |
+| **OpenAI** | `/v1/models` | `gpt-4o`, `gpt-4o-mini`, `o3-mini`, `o1`, `o1-mini` | Mengambil seluruh varian model chat aktif pada organisasi/akun OpenAI pengguna. |
+| **Anthropic Claude**| `/v1/models` | `claude-3-7-sonnet`, `claude-3-5-sonnet`, `claude-3-5-haiku` | Mendukung analisis mendalam dan mode hybrid reasoning dengan jendela konteks 200k token. |
+| **DeepSeek** | `/models` | `deepseek-chat` (V3), `deepseek-reasoner` (R1) | Biaya sangat hemat dengan kemampuan penalaran matematis dan deteksi kerentanan kode cerdas. |
+| **Moonshot Kimi** | `/v1/models` | `moonshot-v1-8k`, `moonshot-v1-32k`, `moonshot-v1-128k` | Penanganan jendela konteks fleksibel hingga 128k token untuk audit narasi masif. |
+| **OpenRouter** | `/v1/models` | 450+ model (DeepSeek R1, Llama 3.3, Claude, Gemini) | Akses real-time ke ratusan model multi-arsitektur lengkap dengan info konteks dan harga per token. |
+| **Groq** | `/openai/v1/models` | `llama-3.3-70b-versatile`, `deepseek-r1-distill-llama-70b` | Inferensi ultra-cepat (>300 token/detik) dengan daftar model aktif real-time dari Groq cloud. |
+| **Custom Endpoint** | `{customBaseUrl}/models` | Bebas (Ollama, Local LLM, vLLM, GitHub Models) | Fleksibilitas menghubungkan private instance LLM internal pengguna. |
 
 ### 17.3 Proteksi Anti-Prompt-Injection & Sandbox Delimiter XML
 

@@ -4,10 +4,10 @@
   "tagline": "Pure Client-Side Multi-Wallet Trading Terminal for Solana Memecoins",
   "repository": "https://github.com/AhmadArifff/SolanaTradeMemes.git",
   "active_branch": "dev",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "status": "READY_FOR_RELEASE",
-  "active_goal": "Penyelesaian Multi-Provider AI Engine (BYOK), Anti-Prompt Injection, Quota Tracker, & Side-by-Side Comparison (M14)",
-  "last_updated": "2026-10-09T23:00:00+07:00",
+  "active_goal": "Penyelesaian Real-Time Dynamic Model Discovery Berdasarkan Paket API Key, Searchable Selector, Limit Badge & Bab 17 PRD",
+  "last_updated": "2026-10-09T23:18:00+07:00",
   "current_sprint": "Sprint 7: Multi-Provider AI Engine (BYOK), Anti-Prompt Injection & Side-by-Side Comparative Audit",
   "completed_milestones": [
     {
