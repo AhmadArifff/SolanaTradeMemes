@@ -22,7 +22,7 @@ export default function RootLayout({
   );
 
   return (
-    <html lang="id" className="dark">
+    <html lang="id" className="dark" suppressHydrationWarning>
       <head>
         <title>SolanaTradeMemes | Pure Client-Side Trading Terminal</title>
         <meta
@@ -32,7 +32,10 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body className="bg-zinc-950 text-zinc-100 min-h-screen selection:bg-cyan-500/30 selection:text-cyan-200">
+      <body
+        suppressHydrationWarning
+        className="bg-zinc-950 text-zinc-100 min-h-screen selection:bg-cyan-500/30 selection:text-cyan-200"
+      >
         <QueryClientProvider client={queryClient}>
           {children}
         </QueryClientProvider>

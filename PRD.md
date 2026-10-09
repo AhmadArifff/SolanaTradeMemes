@@ -513,19 +513,27 @@ Di bawah panel grafik *candlestick*, sistem menyediakan bilah tab analitik inter
   6. `Time`: Stempel waktu relatif (misal `5s ago`, `1m ago`).
   7. `Txn`: Tautan eksternal langsung menuju penjelajah blok Solscan.
 
-#### B. Tab Holders (Distribusi Kepemilikan & PnL)
-- **Fungsi**: Membedah konsentrasi pemegang token terbesar untuk mendeteksi monopoli pasokan (*supply monopoly*).
+#### B. Tab Holders (Integrasi Resmi Pump.fun Mint Positions & Fallback RPC)
+- **Fungsi**: Membedah konsentrasi pemegang token terbesar secara real-time, menyajikan profil pengguna Pump.fun asli, serta memetakan modal pembelian (*Bought*) dan keuntungan/kerugian bersih (*PnL*) trader.
+- **Arsitektur Dual-Source Provider**:
+  1. **Primary Provider (Pump.fun Positions API)**: Mengambil data langsung dari `https://frontend-api-v3.pump.fun/mint-positions/{mint}?sortBy=TOP&pageSize=50`. Mengembalikan profil pengguna terverifikasi, riwayat modal pembelian riil, dan status PnL on-chain.
+  2. **Secondary Provider (Fallback Solana RPC)**: Jika API Pump.fun tidak dapat dijangkau atau token telah bermigrasi ke Raydium, sistem otomatis beralih ke node Solana RPC (`getTokenLargestAccounts`).
+- **Pengecualian Otomatis Akun Liquidity Pool / Bonding Curve AMM**:
+  Sistem menerapkan filter khusus untuk mengecualikan akun smart contract AMM Bonding Curve (yang memegang sisa suplai ~20% s.d 30%) dari daftar peringkat trader, sehingga pemegang peringkat #1 selalu mencerminkan trader ritel terbesar yang sebenarnya.
 - **Sub-Filter Bar**:
-  - `All`: Seluruh pemegang token teratas dari on-chain RPC.
-  - `In Profit`: Pemegang yang saat ini berada dalam posisi laba belum terealisasi.
-  - `At a Loss`: Pemegang yang saat ini berada dalam posisi rugi belum terealisasi.
-- **Struktur Kolom**:
-  1. `Holder`: Identitas atau alamat dompet pemegang token.
-  2. `Held`: Jumlah token yang disimpan saat ini.
+  - `All Holders ({totalCount})`: Seluruh pemegang token aktif (menampilkan jumlah total holder on-chain riil).
+  - `In Profit`: Pemegang yang saat ini berada dalam posisi laba bersih on-chain (PnL > 0).
+  - `At a Loss`: Pemegang yang saat ini berada dalam posisi rugi bersih on-chain (PnL < 0).
+- **Struktur Kolom Data**:
+  1. `# Holder`: Nomor urut, avatar profil WebP resmi Pump.fun (atau avatar inisial), username pengguna terdaftar (contoh: `NikoBundle`), shortened wallet address, dan badge status `DEV`.
+  2. `Held`: Jumlah token yang disimpan saat ini dalam format ringkas (contoh: `30.5M`).
   3. `% Supply`: Persentase kepemilikan relatif terhadap total pasokan (1 Miliar token).
-  4. `Position (USD)`: Nilai portofolio dalam Dolar AS berdasarkan harga pasar saat ini.
-  5. `Profit / Loss`: Estimasi keuntungan atau kerugian (warna hijau untuk profit, merah untuk loss).
-  6. `Avg Entry MC`: Estimasi rata-rata Market Cap saat pemegang mengakumulasi token.
+  4. `Position`: Nilai portofolio dalam Dolar AS berdasarkan harga pasar saat ini.
+  5. `Profit`: Laba/rugi bersih riil on-chain dalam USD (realized + unrealized PnL). Berwarna hijau untuk profit (contoh: `+$353.36`) dan merah untuk rugi.
+  6. `Avg Entry MC`: Volume-weighted average Market Cap saat pemegang mengeksekusi pembelian:
+     $$\text{Avg Entry MC} = \left(\frac{\text{Bought USD}}{\text{Total Tokens Bought}}\right) \times 1{,}000{,}000{,}000$$
+  7. `Bought`: Total akumulasi modal belanja USD yang dikeluarkan dompet untuk membeli token (contoh: `$424`, `$541`).
+  8. `Explorer`: Tautan eksternal langsung menuju akun dompet pada penjelajah blok Solscan.
 
 #### C. Tab About (Metadata Proyek & Tautan Komunitas)
 - **Fungsi**: Memberikan tinjauan fundamental tentang proyek memecoin yang sedang diamati.
