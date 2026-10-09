@@ -15,7 +15,7 @@ import { useTokenPrice } from '../hooks/useTokenPrice';
 
 const RPC_URL =
   process.env.NEXT_PUBLIC_SOLANA_RPC_URL ||
-  'https://mainnet.helius-rpc.com/?api-key=12705906-dfd3-4d80-8323-9a6d30ee6d87';
+  'https://api.mainnet-beta.solana.com';
 
 export default function TerminalPage() {
   const {

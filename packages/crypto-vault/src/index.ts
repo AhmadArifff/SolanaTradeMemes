@@ -28,3 +28,11 @@ export {
 } from './storage';
 
 export { CryptoVault } from './vault';
+
+export {
+  DEFAULT_SOLANA_DERIVATION_PATH,
+  sanitizeMnemonicInput,
+  validateMnemonicPhrase,
+  deriveSolanaKeypairFromMnemonic,
+  mnemonicToPrivateKeyBase58,
+} from './mnemonic';

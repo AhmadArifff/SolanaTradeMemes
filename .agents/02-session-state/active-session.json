@@ -4,11 +4,11 @@
   "tagline": "Pure Client-Side Multi-Wallet Trading Terminal for Solana Memecoins",
   "repository": "https://github.com/AhmadArifff/SolanaTradeMemes.git",
   "active_branch": "dev",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "status": "READY_FOR_RELEASE",
-  "active_goal": "Seluruh 15 Bab PRD & Milestone M0 s.d. M9 Telah Selesai Diimplementasikan, Diverifikasi, dan Siap Dijalankan",
-  "last_updated": "2026-10-09T08:31:00+07:00",
-  "current_sprint": "Sprint 5: Monorepo Delivery, Zero-Leak Audit, & Production Readiness",
+  "active_goal": "Penyelesaian Modal Impor Gaya OKX (Seed Phrase & Private Key) serta Pengamanan Kunci Lingkungan (M10)",
+  "last_updated": "2026-10-09T21:15:00+07:00",
+  "current_sprint": "Sprint 5: Monorepo Delivery, Zero-Leak Audit, & OKX Import UI",
   "completed_milestones": [
     {
       "id": "M0_PRD_AND_DOCS_INITIALIZATION",
@@ -92,6 +92,14 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-09",
       "details": "Audit zero-key-exfiltration statis lolos 100% (hanya 2 network egress: fetch /trade-local hanya mengirim public key, fetch DexScreener token price; signing murni di RAM). Build monorepo lolos 100%. Mandatory Delivery Gate 4-blok berstatus PASS penuh tanpa em dash (R-02) dan WCAG AA compliant."
+    },
+    {
+      "id": "M10_OKX_IMPORT_UI_AND_ENV_HARDENING",
+      "title": "Antarmuka Impor Dompet Gaya OKX (Seed Phrase 12/24 Kata & Auto-Sanitasi Paste) serta Pengamanan Kunci Rahasia RPC",
+      "prd_sections": ["Bab 7.1", "Bab 10.1", "Bab 15"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Pembersihan total API key hardcoded dari kode sumber (hanya dibaca via NEXT_PUBLIC_SOLANA_RPC_URL dan .env.local). Implementasi ImportWalletModal bergaya OKX Wallet dengan tab segmented (Seed phrase vs Private key), dropdown 12/24 kata, grid input bernomor 2 kolom, dan auto-sanitasi paste (otomatis membersihkan pola '1. laugh' dsb). Derivasi Solana Keypair m/44'/501'/0'/0' BIP-39 dengan 16/16 test Vitest lolos."
     }
   ],
   "in_progress_milestones": [],
