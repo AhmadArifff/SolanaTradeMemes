@@ -100,6 +100,17 @@ export const TokenCandlestickChart: React.FC<TokenCandlestickChartProps> = ({
 
           {/* Sisi Kanan: Tautan Eksternal & Aksi */}
           <div className="flex items-center gap-1.5 text-xs">
+            {onOpenAnalyzer && (
+              <button
+                type="button"
+                onClick={onOpenAnalyzer}
+                className="px-2.5 py-1 rounded-lg bg-gradient-to-r from-amber-500/20 via-cyan-500/20 to-emerald-500/20 hover:from-amber-500/30 hover:via-cyan-500/30 hover:to-emerald-500/30 text-amber-300 border border-amber-500/50 text-[11px] font-bold flex items-center gap-1.5 shadow-sm shadow-amber-500/10 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                title="Buka Modal Analisis Token (Hype, Socials, Safety Score, Diskon ATH & AI Audit)"
+              >
+                <Zap className="w-3.5 h-3.5 text-amber-400 fill-amber-400 animate-pulse" />
+                <span>Analyze Token</span>
+              </button>
+            )}
             <button
               type="button"
               onClick={handleReloadIframe}

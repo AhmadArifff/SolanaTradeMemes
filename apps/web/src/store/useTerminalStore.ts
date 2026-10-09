@@ -65,7 +65,7 @@ export const useTerminalStore = create<TerminalState>((set, get) => {
     isUnlocked: false,
     masterPassword: null,
     wallets: [],
-    activeMint: '',
+    activeMint: 'zmvhp6GmmTgpkpL4v6sobHgAmuJkkZwUFDYLz5S1Bwz',
     tradePreset: 0.1,
     slippage: TRADING_DEFAULTS.SLIPPAGE_PERCENT,
     priorityFee: TRADING_DEFAULTS.PRIORITY_FEE_SOL,

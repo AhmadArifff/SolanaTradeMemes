@@ -122,9 +122,11 @@ export function TokenAnalyzerModal({
     if (!isDragging || !dragRef.current) return;
     const dx = e.clientX - dragRef.current.startX;
     const dy = e.clientY - dragRef.current.startY;
+    const maxX = Math.max(10, window.innerWidth - 380);
+    const maxY = Math.max(10, window.innerHeight - 150);
     setPosition({
-      x: Math.max(10, Math.min(window.innerWidth - 650, dragRef.current.initialX + dx)),
-      y: Math.max(10, Math.min(window.innerHeight - 300, dragRef.current.initialY + dy)),
+      x: Math.max(10, Math.min(maxX, dragRef.current.initialX + dx)),
+      y: Math.max(10, Math.min(maxY, dragRef.current.initialY + dy)),
     });
   };
 

@@ -121,6 +121,7 @@ export default function TerminalPage() {
         onOpenUnlockModal={() => setIsUnlockModalOpen(true)}
         onOpenImportModal={() => setIsImportModalOpen(true)}
         onOpenAiConfigModal={() => setIsAiConfigModalOpen(true)}
+        onOpenTokenAnalyzer={() => setIsAnalyzerModalOpen(true)}
         onRefreshBalances={handleRefreshBalances}
         isRefreshing={isRefreshing}
         rpcLatencyMs={rpcLatencyMs}
@@ -158,6 +159,7 @@ export default function TerminalPage() {
                 <TradingPanel
                   connection={connection}
                   onTradeExecuted={handleTradeExecuted}
+                  onOpenTokenAnalyzer={() => setIsAnalyzerModalOpen(true)}
                 />
               </div>
             </div>
@@ -174,6 +176,7 @@ export default function TerminalPage() {
               <TradingPanel
                 connection={connection}
                 onTradeExecuted={handleTradeExecuted}
+                onOpenTokenAnalyzer={() => setIsAnalyzerModalOpen(true)}
               />
             </div>
 
@@ -209,19 +212,17 @@ export default function TerminalPage() {
 
       <TradeExecutionStatusModal />
 
-      {activeMint && (
-        <TokenAnalyzerModal
-          isOpen={isAnalyzerModalOpen}
-          onClose={() => setIsAnalyzerModalOpen(false)}
-          tokenSymbol={tokenData?.symbol || 'TOKEN'}
-          tokenName={tokenData?.name || 'Token'}
-          tokenMint={activeMint}
-          currentPriceUsd={tokenData?.priceUsd || 0.0001}
-          safetyMetrics={safetyMetrics}
-          aboutInfo={aboutInfo ?? null}
-          onPanicSellTrigger={handlePanicSellFromModal}
-        />
-      )}
+      <TokenAnalyzerModal
+        isOpen={isAnalyzerModalOpen}
+        onClose={() => setIsAnalyzerModalOpen(false)}
+        tokenSymbol={tokenData?.symbol || 'TOKEN'}
+        tokenName={tokenData?.name || 'Solana Token'}
+        tokenMint={activeMint || 'zmvhp6GmmTgpkpL4v6sobHgAmuJkkZwUFDYLz5S1Bwz'}
+        currentPriceUsd={tokenData?.priceUsd || 0.0001}
+        safetyMetrics={safetyMetrics}
+        aboutInfo={aboutInfo ?? null}
+        onPanicSellTrigger={handlePanicSellFromModal}
+      />
 
       {/* Modal Konfigurasi AI Multi-Provider (BYOK) */}
       <AiConfigModal
