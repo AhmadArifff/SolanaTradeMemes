@@ -63,11 +63,11 @@ git push origin dev
 
 ---
 
-## 3. Tata Kelola Sesi & Pelacakan PRD (.agents/session-state/)
+## 3. Tata Kelola Sesi & Pelacakan PRD (.agents/02-session-state/)
 
 Untuk memastikan seluruh agen AI dan developer di berbagai perangkat memiliki pemahaman status yang sinkron, sistem menggunakan mekanisme **Active Session State**:
 
-* **Lokasi Berkas:** `.agents/session-state/active-session.json` (dan `.agents/02-session-state/active-session.json`)
+* **Lokasi Berkas:** `.agents/02-session-state/active-session.json` (CLI: `node .agents/02-session-state/session-manager.js`)
 * **Tujuan:**
   1. Melacak tujuan aktif saat ini (`active_goal`).
   2. Mencatat milestone yang telah terverifikasi lolos (`completed_milestones`) beserta nomor seksi PRD yang dicakup.
@@ -164,5 +164,5 @@ pnpm lint
 * **[PRD.md](./PRD.md):** Spesifikasi Kebutuhan Produk lengkap (14 Seksi).
 * **[CONFIG_GUIDE.md](./CONFIG_GUIDE.md):** Panduan langkah demi langkah memperoleh kredensial RPC Helius, QuickNode, PumpPortal, DexScreener, dan Supabase.
 * **[AGENTS.md](./AGENTS.md):** Tata kelola orkestrasi multi-agen dan pemetaan skill AI.
-* **[.agents/session-state/active-session.json](./.agents/session-state/active-session.json):** Status sesi aktif dan pelacakan batasan teknis.
+* **[.agents/02-session-state/active-session.json](./.agents/02-session-state/active-session.json):** Status sesi aktif dan pelacakan batasan teknis.
 * **[.agents/knowledge/terminal-cases.md](./.agents/knowledge/terminal-cases.md):** Bank kasus penanganan bug rate limit RPC, format v0, dan pembersihan memori RAM.

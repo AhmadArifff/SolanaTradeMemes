@@ -71,7 +71,7 @@ Untuk pengerjaan proyek ini, agen mengorkestrasikan kombinasi skill global dan s
 
 ## 6. Pelacakan Status Sesi & Panduan Pengembangan
 
-* **[Active Session State](./.agents/session-state/active-session.json)**: Status pelacakan kemajuan PRD dan batasan arsitektur terkunci lintas tim.
+* **[Active Session State](./.agents/02-session-state/active-session.json)**: Status pelacakan kemajuan PRD dan batasan arsitektur terkunci lintas tim.
 * **[DEVELOPMENT_GUIDE.md](./DEVELOPMENT_GUIDE.md)**: Panduan kolaborasi harian tim, alur kerja git branch dev, dan review gate 7 pilar.
 * **[CONFIG_GUIDE.md](./CONFIG_GUIDE.md)**: Panduan step-by-step setup RPC Helius, PumpPortal, DexScreener, dan variabel .env.local.
 
