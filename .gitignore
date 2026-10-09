@@ -28,7 +28,6 @@ test-results/
 *.pem
 *.key
 DOC_SERVICES.md
-DOC.md
 
 # Operating System & Editor Files
 .DS_Store

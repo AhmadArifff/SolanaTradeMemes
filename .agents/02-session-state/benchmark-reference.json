@@ -1,0 +1,35 @@
+{
+  "project": "SolanaTradeMemes",
+  "benchmarks": {
+    "local_signing_latency_ms": {
+      "target": 50,
+      "max_tolerated": 150,
+      "unit": "ms per wallet"
+    },
+    "parallel_broadcast_batch_size": {
+      "target": 10,
+      "max_tested": 30,
+      "unit": "wallets per batch"
+    },
+    "price_polling_frequency_active_ms": {
+      "target": 5000,
+      "unit": "ms"
+    },
+    "price_polling_frequency_blurred_ms": {
+      "target": 30000,
+      "unit": "ms"
+    },
+    "pbkdf2_iterations": {
+      "target": 100000,
+      "standard": "NIST SP 800-132"
+    },
+    "client_bundle_size_kb": {
+      "target": 250,
+      "unit": "kB gzipped"
+    },
+    "private_key_leakage_tolerance": {
+      "target": 0,
+      "unit": "exfiltrations allowed"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "project": "SolanaTradeMemes",
+  "total_cases": 2,
+  "cases": [
+    {
+      "id": "case-20261009-solana-rpc-rate-limit-mitigation",
+      "title": "Mitigasi HTTP 429 Rate Limit pada Broadcast Multi-Wallet Solana",
+      "tags": ["Solana", "RPC", "RateLimit", "Helius", "Promise.allSettled"],
+      "verified_date": "2026-10-09",
+      "status": "VERIFIED_PRODUCTION_PATTERN"
+    },
+    {
+      "id": "case-20261009-versioned-transaction-v0-deserialization",
+      "title": "Deserialisasi VersionedTransaction v0 dan PumpPortal trade-local",
+      "tags": ["Solana", "Web3.js", "v0", "PumpPortal", "Signing"],
+      "verified_date": "2026-10-09",
+      "status": "VERIFIED_PRODUCTION_PATTERN"
+    }
+  ]
+}
