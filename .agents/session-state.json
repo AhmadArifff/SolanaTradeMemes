@@ -1,0 +1,47 @@
+{
+  "project_name": "SolanaTradeMemes",
+  "primary_goal": "Sistem Trading Memecoin Solana Terintegrasi Dexscreener & Phantom Wallet",
+  "current_stage": "INITIALIZATION",
+  "active_subtask": {
+    "id": "T-01",
+    "task": "Inisialisasi arsitektur proyek dan tinjauan kebutuhan PRD",
+    "owner_role": "problem-decomposer",
+    "status": "in_progress",
+    "rework_iteration_count": 0
+  },
+  "subtasks": [
+    {
+      "id": "T-01",
+      "task": "Inisialisasi arsitektur proyek dan tinjauan kebutuhan PRD",
+      "owner_role": "problem-decomposer",
+      "status": "in_progress",
+      "rework_iteration_count": 0
+    }
+  ],
+  "established_constraints": [
+    {
+      "id": "C-01",
+      "category": "security",
+      "constraint": "Dilarang keras menyimpan private key atau wallet mnemonic ke repositori kode",
+      "locked": true
+    },
+    {
+      "id": "C-02",
+      "category": "blockchain",
+      "constraint": "RPC Solana dikonfigurasi melalui environment variables dengan rate-limit fallback",
+      "locked": true
+    },
+    {
+      "id": "C-03",
+      "category": "ux",
+      "constraint": "Koneksi wallet Phantom/Solflare mendukung auto-reconnect dan responsivitas mobile",
+      "locked": true
+    }
+  ],
+  "open_questions": [],
+  "last_reviewer_verdict": {
+    "role": "tech-critic",
+    "result": "approved",
+    "note": "Initial spoke project architecture template initialized successfully"
+  }
+}
