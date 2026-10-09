@@ -21,6 +21,7 @@ import {
 } from '@repo/ui';
 import { useTerminalStore } from '../store/useTerminalStore';
 import { useTokenPrice } from '../hooks/useTokenPrice';
+import { formatSmartPrice } from './TokenCandlestickChart';
 
 interface TradingPanelProps {
   connection: Connection;
@@ -163,11 +164,11 @@ export const TradingPanel: React.FC<TradingPanelProps> = ({
                 <div className="flex items-center gap-3">
                   <div>
                     <span className="text-zinc-500 text-[10px] block">Harga SOL</span>
-                    <span className="text-cyan-400 font-semibold">{tokenData.priceSol.toFixed(8)} SOL</span>
+                    <span className="text-cyan-400 font-semibold">{formatSmartPrice(tokenData.priceSol)} SOL</span>
                   </div>
                   <div>
                     <span className="text-zinc-500 text-[10px] block">Harga USD</span>
-                    <span className="text-zinc-200 font-semibold">${tokenData.priceUsd.toFixed(6)}</span>
+                    <span className="text-zinc-200 font-semibold">${formatSmartPrice(tokenData.priceUsd)}</span>
                   </div>
                   {tokenData.priceChange24h !== undefined && (
                     <div>

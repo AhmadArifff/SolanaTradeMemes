@@ -4,11 +4,11 @@
   "tagline": "Pure Client-Side Multi-Wallet Trading Terminal for Solana Memecoins",
   "repository": "https://github.com/AhmadArifff/SolanaTradeMemes.git",
   "active_branch": "dev",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "status": "READY_FOR_RELEASE",
-  "active_goal": "Penyelesaian Modal Impor Gaya OKX (Seed Phrase & Private Key) serta Pengamanan Kunci Lingkungan (M10)",
-  "last_updated": "2026-10-09T21:15:00+07:00",
-  "current_sprint": "Sprint 5: Monorepo Delivery, Zero-Leak Audit, & OKX Import UI",
+  "active_goal": "Penyelesaian Live Candlestick Chart (TradingView Engine) & Perbaikan Akurasi Harga Real-Time DexScreener (M11)",
+  "last_updated": "2026-10-09T21:32:00+07:00",
+  "current_sprint": "Sprint 5: Monorepo Delivery, Live Candlestick Chart & Real-Time Price Tracking",
   "completed_milestones": [
     {
       "id": "M0_PRD_AND_DOCS_INITIALIZATION",
@@ -100,6 +100,14 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-09",
       "details": "Pembersihan total API key hardcoded dari kode sumber (hanya dibaca via NEXT_PUBLIC_SOLANA_RPC_URL dan .env.local). Implementasi ImportWalletModal bergaya OKX Wallet dengan tab segmented (Seed phrase vs Private key), dropdown 12/24 kata, grid input bernomor 2 kolom, dan auto-sanitasi paste (otomatis membersihkan pola '1. laugh' dsb). Derivasi Solana Keypair m/44'/501'/0'/0' BIP-39 dengan 16/16 test Vitest lolos."
+    },
+    {
+      "id": "M11_LIVE_CANDLESTICK_CHART_AND_REALTIME_PRICE_FIX",
+      "title": "Integrasi Live Candlestick Chart (TradingView Engine) & Perbaikan Akurasi Harga Real-Time DexScreener",
+      "prd_sections": ["Bab 7.3", "Bab 10.2"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Root cause analisis tuntas: (1) Menyematkan komponen TokenCandlestickChart interaktif TradingView DexScreener embed dengan volume, timeframe, dan tautan pump.fun; (2) Memperbaiki sorting pair DexScreener berdasarkan likuiditas USD tertinggi sehingga mengambil pair aktif pumpswap/raydium (bukan pair awal bonding curve likuiditas $0 yang macet); (3) Mengkalkulasi konversi harga SOL presisi dan memformat angka mikro-kripto agar tidak terpotong menjadi 0.00000000 SOL; (4) Polling interval dipercepat ke 3000ms saat tab aktif."
     }
   ],
   "in_progress_milestones": [],

@@ -5,6 +5,7 @@ import { createRpcConnection, checkRpcHealth } from '@repo/solana-engine';
 import { Navbar } from '../components/Navbar';
 import { WalletManager } from '../components/WalletManager';
 import { TradingPanel } from '../components/TradingPanel';
+import { TokenCandlestickChart } from '../components/TokenCandlestickChart';
 import { TradeHistoryLedger } from '../components/TradeHistoryLedger';
 import { UnlockVaultModal } from '../components/UnlockVaultModal';
 import { ImportWalletModal } from '../components/ImportWalletModal';
@@ -27,7 +28,11 @@ export default function TerminalPage() {
   } = useTerminalStore();
 
   const { recordTrade } = useTradeLedger();
-  const { data: tokenData } = useTokenPrice(activeMint);
+  const {
+    data: tokenData,
+    isLoading: isTokenLoading,
+    refetch: refetchToken,
+  } = useTokenPrice(activeMint);
 
   const [isUnlockModalOpen, setIsUnlockModalOpen] = useState(false);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
@@ -98,21 +103,50 @@ export default function TerminalPage() {
 
       {/* Konten Utama Terminal Dashboard */}
       <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-6">
-        {/* Baris Atas: Panel Trading (Kiri) & Manajemen Dompet (Kanan) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* Kolom Kiri: Panel Eksekusi Trading */}
-          <div className="lg:col-span-5 w-full">
-            <TradingPanel
-              connection={connection}
-              onTradeExecuted={handleTradeExecuted}
-            />
-          </div>
+        {/* Susunan Responsif Terminal Trading */}
+        {activeMint ? (
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+              {/* Kolom Kiri: Live TradingView Candlestick Chart (7 kolom) */}
+              <div className="lg:col-span-7 w-full">
+                <TokenCandlestickChart
+                  mintAddress={activeMint}
+                  tokenData={tokenData}
+                  isLoading={isTokenLoading}
+                  onRefresh={refetchToken}
+                />
+              </div>
 
-          {/* Kolom Kanan: Multi-Wallet Manager */}
-          <div className="lg:col-span-7 w-full">
-            <WalletManager />
+              {/* Kolom Kanan: Panel Eksekusi Sniper (5 kolom) */}
+              <div className="lg:col-span-5 w-full">
+                <TradingPanel
+                  connection={connection}
+                  onTradeExecuted={handleTradeExecuted}
+                />
+              </div>
+            </div>
+
+            {/* Baris Kedua: Multi-Wallet Manager */}
+            <div className="w-full">
+              <WalletManager />
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            {/* Kolom Kiri: Panel Eksekusi Trading */}
+            <div className="lg:col-span-5 w-full">
+              <TradingPanel
+                connection={connection}
+                onTradeExecuted={handleTradeExecuted}
+              />
+            </div>
+
+            {/* Kolom Kanan: Multi-Wallet Manager */}
+            <div className="lg:col-span-7 w-full">
+              <WalletManager />
+            </div>
+          </div>
+        )}
 
         {/* Baris Bawah: Buku Besar Riwayat Transaksi & Realized PnL */}
         <div className="w-full">
