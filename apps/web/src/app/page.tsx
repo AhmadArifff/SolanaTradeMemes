@@ -6,6 +6,8 @@ import { Navbar } from '../components/Navbar';
 import { WalletManager } from '../components/WalletManager';
 import { TradingPanel } from '../components/TradingPanel';
 import { TokenCandlestickChart } from '../components/TokenCandlestickChart';
+import { TokenAnalyticsTabs } from '../components/TokenAnalyticsTabs';
+import { TokenAnalyzerModal } from '../components/TokenAnalyzerModal';
 import { TradeHistoryLedger } from '../components/TradeHistoryLedger';
 import { UnlockVaultModal } from '../components/UnlockVaultModal';
 import { ImportWalletModal } from '../components/ImportWalletModal';
@@ -13,6 +15,7 @@ import { TradeExecutionStatusModal } from '../components/TradeExecutionStatusMod
 import { useTerminalStore } from '../store/useTerminalStore';
 import { useTradeLedger } from '../hooks/useTradeLedger';
 import { useTokenPrice } from '../hooks/useTokenPrice';
+import { useTokenIntelligence } from '../hooks/useTokenIntelligence';
 
 const RPC_URL =
   process.env.NEXT_PUBLIC_SOLANA_RPC_URL ||
@@ -25,6 +28,7 @@ export default function TerminalPage() {
     activeMint,
     tradePreset,
     executionResults,
+    executePanicSell,
   } = useTerminalStore();
 
   const { recordTrade } = useTradeLedger();
@@ -34,8 +38,18 @@ export default function TerminalPage() {
     refetch: refetchToken,
   } = useTokenPrice(activeMint);
 
+  const {
+    holders,
+    isLoadingHolders,
+    liveTrades,
+    aboutInfo,
+    isLoadingAbout,
+    safetyMetrics,
+  } = useTokenIntelligence(activeMint, tokenData);
+
   const [isUnlockModalOpen, setIsUnlockModalOpen] = useState(false);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+  const [isAnalyzerModalOpen, setIsAnalyzerModalOpen] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [rpcLatencyMs, setRpcLatencyMs] = useState<number | null>(null);
 
@@ -90,6 +104,14 @@ export default function TerminalPage() {
     }
   }, [executionResults, activeMint, tokenData, tradePreset, recordTrade]);
 
+  const handlePanicSellFromModal = useCallback(async () => {
+    try {
+      await executePanicSell(connection);
+    } catch (err) {
+      console.error('Panic sell failed:', err);
+    }
+  }, [executePanicSell, connection]);
+
   return (
     <div className="min-h-screen flex flex-col bg-zinc-950 font-sans text-zinc-100">
       {/* Header & Navbar */}
@@ -107,13 +129,24 @@ export default function TerminalPage() {
         {activeMint ? (
           <div className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-              {/* Kolom Kiri: Live TradingView Candlestick Chart (7 kolom) */}
-              <div className="lg:col-span-7 w-full">
+              {/* Kolom Kiri: Live TradingView Candlestick Chart + Token Analytics Tabs (7 kolom) */}
+              <div className="lg:col-span-7 w-full space-y-4">
                 <TokenCandlestickChart
                   mintAddress={activeMint}
                   tokenData={tokenData}
                   isLoading={isTokenLoading}
                   onRefresh={refetchToken}
+                  onOpenAnalyzer={() => setIsAnalyzerModalOpen(true)}
+                />
+
+                <TokenAnalyticsTabs
+                  holders={holders}
+                  isLoadingHolders={isLoadingHolders}
+                  liveTrades={liveTrades}
+                  aboutInfo={aboutInfo ?? null}
+                  isLoadingAbout={isLoadingAbout}
+                  tokenSymbol={tokenData?.symbol || 'TOKEN'}
+                  tokenMint={activeMint}
                 />
               </div>
 
@@ -172,6 +205,20 @@ export default function TerminalPage() {
       />
 
       <TradeExecutionStatusModal />
+
+      {activeMint && (
+        <TokenAnalyzerModal
+          isOpen={isAnalyzerModalOpen}
+          onClose={() => setIsAnalyzerModalOpen(false)}
+          tokenSymbol={tokenData?.symbol || 'TOKEN'}
+          tokenName={tokenData?.name || 'Token'}
+          tokenMint={activeMint}
+          currentPriceUsd={tokenData?.priceUsd || 0.0001}
+          safetyMetrics={safetyMetrics}
+          aboutInfo={aboutInfo ?? null}
+          onPanicSellTrigger={handlePanicSellFromModal}
+        />
+      )}
     </div>
   );
 }

@@ -4,11 +4,11 @@
   "tagline": "Pure Client-Side Multi-Wallet Trading Terminal for Solana Memecoins",
   "repository": "https://github.com/AhmadArifff/SolanaTradeMemes.git",
   "active_branch": "dev",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "status": "READY_FOR_RELEASE",
-  "active_goal": "Penyelesaian Live Candlestick Chart (TradingView Engine) & Perbaikan Akurasi Harga Real-Time DexScreener (M11)",
-  "last_updated": "2026-10-09T21:32:00+07:00",
-  "current_sprint": "Sprint 5: Monorepo Delivery, Live Candlestick Chart & Real-Time Price Tracking",
+  "active_goal": "Penyelesaian Token Intelligence, Bottom Tabs Analitik (Trades, Holders, About gaya Pump.fun), & Draggable Token Analyzer Modal (M12)",
+  "last_updated": "2026-10-09T22:16:00+07:00",
+  "current_sprint": "Sprint 6: Token Intelligence, Pump.fun Analytics Tabs & Draggable AI Analyzer",
   "completed_milestones": [
     {
       "id": "M0_PRD_AND_DOCS_INITIALIZATION",
@@ -108,10 +108,25 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-09",
       "details": "Root cause analisis tuntas: (1) Menyematkan komponen TokenCandlestickChart interaktif TradingView DexScreener embed dengan volume, timeframe, dan tautan pump.fun; (2) Memperbaiki sorting pair DexScreener berdasarkan likuiditas USD tertinggi sehingga mengambil pair aktif pumpswap/raydium (bukan pair awal bonding curve likuiditas $0 yang macet); (3) Mengkalkulasi konversi harga SOL presisi dan memformat angka mikro-kripto agar tidak terpotong menjadi 0.00000000 SOL; (4) Polling interval dipercepat ke 3000ms saat tab aktif."
+    },
+    {
+      "id": "M12_TOKEN_INTELLIGENCE_PUMPFUN_TABS_AND_DRAGGABLE_ANALYZER",
+      "title": "Token Intelligence: Bottom Tabs Analitik (Trades, Holders, About gaya Pump.fun) & Draggable Token Analyzer Modal",
+      "prd_sections": ["Bab 16.1", "Bab 16.2", "Bab 16.3", "Bab 16.4", "Bab 16.5", "Bab 16.6", "Bab 16.7"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Berhasil membangun dan memvalidasi: (1) TokenAnalyticsTabs di bawah chart (Trades live feed dengan filters All/Buys/Sells, Holders dengan distribusi % supply & PnL dari Helius RPC on-chain getTokenLargestAccounts, About dengan summary & tautan sosial resmi); (2) Tombol [⚡ Analyze Token] di header grafik; (3) Draggable floating modal dengan pointer tracking; (4) Deterministic Safety Score (0-100), Hype check, Holder PnL status; (5) Level Diskon ATH -50% & -70%; (6) Peringatan darurat otomatis drop >70% (Critical Dump / Rugpull Alert) dengan tombol Panic Sell All; (7) Backtest Signal Logger ke IndexedDB/LocalStorage."
     }
   ],
   "in_progress_milestones": [],
-  "upcoming_milestones": [],
+  "upcoming_milestones": [
+    {
+      "id": "M13_BACKTEST_TRACKING_AND_LIVE_SNIPER_RUN",
+      "title": "Backtest Tracking Engine & Pengujian Eksekusi Multi-Dompet Live Sniper",
+      "prd_sections": ["Bab 10", "Bab 13", "Bab 16.7"],
+      "status": "PENDING"
+    }
+  ],
   "prd_coverage_tracker": {
     "Bab 1: Ringkasan Eksekutif (Pure Client-Side Zero Backend)": "VERIFIED_PASS",
     "Bab 2: Problem Statement & Latar Belakang Industri": "VERIFIED_PASS",
@@ -131,7 +146,8 @@
     "Bab 12: Matriks Penanganan Error & Skenario Tepi": "VERIFIED_PASS",
     "Bab 13: Metrik Keberhasilan & Target Peluncuran": "VERIFIED_PASS",
     "Bab 14: Panduan Setup & Scaffolding Monorepo": "VERIFIED_PASS",
-    "Bab 15: Matriks Konfigurasi Lingkungan & Kunci Layanan": "VERIFIED_PASS"
+    "Bab 15: Matriks Konfigurasi Lingkungan & Kunci Layanan": "VERIFIED_PASS",
+    "Bab 16: Token Intelligence, Pump.fun Tabs & Draggable Analyzer": "VERIFIED_PASS"
   },
   "established_constraints": [
     "Branch Mandate: Seluruh pengembangan aktif, perbaikan bug, dan penambahan fitur WAJIB dilakukan di branch dev. Dilarang commit/push langsung ke main.",

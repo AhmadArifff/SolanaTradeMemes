@@ -480,6 +480,116 @@ Jika konfigurasi Supabase diaktifkan dalam proyek:
 
 ---
 
+## 16. Token Intelligence, Pump.fun Analytics Tabs, & Draggable Token Analyzer Modal
+
+Dokumen ini mendefinisikan spesifikasi kebutuhan untuk modul intelijen token (*Token Intelligence*) dan antarmuka analitik real-time yang mengadopsi fungsionalitas profesional gaya Pump.fun dan Photon/BullX. Seluruh kalkulasi analitik, pemantauan feed transaksi, dan deteksi risiko rugpull berjalan 100% di sisi klien (*Pure Client-Side*) memanfaatkan Private RPC Helius dan REST API DexScreener.
+
+### 16.1 Filosofi & Arsitektur Token Intelligence
+
+1. **Zero-Backend Analytics Pipeline**: Data analitik dihimpun langsung oleh peramban pengguna dari dua sumber utama:
+   - **Solana On-Chain RPC (Helius/QuickNode)**: Mengambil data pemegang token aktual secara deterministik melalui `getTokenLargestAccounts` dan `getSignaturesForAddress`.
+   - **DEX Market Data (DexScreener API)**: Mengambil data pasangan perdagangan (*pairs*), volume 24 jam, likuiditas, kapitalisasi pasar (*Market Cap*), dan metadata sosial (*websites*, *twitter*, *telegram*).
+2. **Deterministic Safety Engine**: Algoritma penghitungan skor keamanan token berbasis aturan (*rule-based heuristic*) tanpa ketergantungan AI eksternal yang lambat, menghasilkan skor 0 sampai 100 dalam hitungan milidetik.
+3. **Non-Intrusive Draggable Interface**: Panel analitik mendalam disajikan dalam bentuk modal melayang (*floating modal*) yang dapat dipindahkan posisinya (*draggable*) menggunakan pointer mouse pengguna, sehingga tidak pernah menutupi visualisasi grafik lilin (*candlestick chart*).
+
+### 16.2 Spesifikasi Bottom Tabs Bar (Trades, Holders, About)
+
+Di bawah panel grafik *candlestick*, sistem menyediakan bilah tab analitik interaktif yang menyerupai tampilan resmi Pump.fun:
+
+#### A. Tab Trades (Live Transaction Feed)
+- **Fungsi**: Menampilkan rekaman transaksi beli (*Buy*) dan jual (*Sell*) secara langsung (*real-time*).
+- **Sub-Filter Bar**:
+  - `All`: Menampilkan seluruh aktivitas transaksi.
+  - `Buys`: Memfilter hanya transaksi pembelian (indikator warna hijau `#10b981`).
+  - `Sells`: Memfilter hanya transaksi penjualan (indikator warna merah `#ef4444`).
+  - `≥ $10`: Memfilter transaksi dengan nilai di atas ambang batas tertentu untuk menyaring noise *micro-dust*.
+  - `Search`: Pencarian cepat berdasarkan alamat dompet atau hash transaksi.
+- **Struktur Kolom**:
+  1. `Account`: Avatar identicon dan alamat publik terpotong (misal `GYwA...vL5v`).
+  2. `Type`: Badge `BUY` (hijau) atau `SELL` (merah).
+  3. `Amount (USD)`: Nilai transaksi dalam denominasi Dolar AS (misal `$304.29`).
+  4. `Token Amount`: Jumlah kuantitas token (misal `6.17M QBTC`).
+  5. `Market Cap`: Valuasi Market Cap saat transaksi dieksekusi.
+  6. `Time`: Stempel waktu relatif (misal `5s ago`, `1m ago`).
+  7. `Txn`: Tautan eksternal langsung menuju penjelajah blok Solscan.
+
+#### B. Tab Holders (Distribusi Kepemilikan & PnL)
+- **Fungsi**: Membedah konsentrasi pemegang token terbesar untuk mendeteksi monopoli pasokan (*supply monopoly*).
+- **Sub-Filter Bar**:
+  - `All`: Seluruh pemegang token teratas dari on-chain RPC.
+  - `In Profit`: Pemegang yang saat ini berada dalam posisi laba belum terealisasi.
+  - `At a Loss`: Pemegang yang saat ini berada dalam posisi rugi belum terealisasi.
+- **Struktur Kolom**:
+  1. `Holder`: Identitas atau alamat dompet pemegang token.
+  2. `Held`: Jumlah token yang disimpan saat ini.
+  3. `% Supply`: Persentase kepemilikan relatif terhadap total pasokan (1 Miliar token).
+  4. `Position (USD)`: Nilai portofolio dalam Dolar AS berdasarkan harga pasar saat ini.
+  5. `Profit / Loss`: Estimasi keuntungan atau kerugian (warna hijau untuk profit, merah untuk loss).
+  6. `Avg Entry MC`: Estimasi rata-rata Market Cap saat pemegang mengakumulasi token.
+
+#### C. Tab About (Metadata Proyek & Tautan Komunitas)
+- **Fungsi**: Memberikan tinjauan fundamental tentang proyek memecoin yang sedang diamati.
+- **Komponen Konten**:
+  1. `Project Summary`: Ringkasan deskripsi proyek dan narasi utilitas/meme.
+  2. `Token Badges`: Platform DEX (`Pump.fun` / `Raydium`), Quote Currency (`SOL` / `WBTC`), Pair Age.
+  3. `Verified Sources`: Tautan sumber resmi (Website, X/Twitter, Telegram, GitHub, Audit link, Solscan).
+
+### 16.3 Spesifikasi Header Action: Tombol "Analyze Token" & Draggable Modal
+
+1. **Tombol Pemicu (*Trigger Button*)**:
+   - Diletakkan di header grafik *candlestick* tepat di samping informasi `24h vol`.
+   - Label: `[⚡ Analyze Token]` dengan styling Cyberpunk Dark beranimasi glow halus.
+2. **Perilaku Draggable Modal**:
+   - Modal dibuka di atas layar dengan koordinat default di sudut kanan atas area kerja.
+   - Dilengkapi *drag handle* pada bilah judul modal dengan event `onPointerDown`, `onPointerMove`, dan `onPointerUp`.
+   - Menggunakan `setPointerCapture` agar perpindahan posisi kursor tetap mulus saat digeser dengan cepat.
+   - Mendukung tombol *Minimize*, *Reset Position*, dan *Close*.
+
+### 16.4 Algoritma Safety Score (0-100) & Kategorisasi Risiko
+
+Sistem mengevaluasi 5 parameter utama untuk menghasilkan Skor Keamanan Token:
+
+$$\text{Safety Score} = 100 - P_{\text{dev}} - P_{\text{top10}} - P_{\text{social}} - P_{\text{dump}} + B_{\text{vol}}$$
+
+Di mana:
+- $P_{\text{dev}}$: Penalti kepemilikan Dev (jika dev memegang >10% supply: kurangi 35 poin; jika dev sudah 0%: tidak ada penalti).
+- $P_{\text{top10}}$: Penalti konsentrasi Top 10 Holders (jika >30% supply: kurangi 25 poin; jika >50%: kurangi 40 poin).
+- $P_{\text{social}}$: Penalti ketidaklengkapan sosial (tidak ada Twitter/Telegram/Website: kurangi 20 poin).
+- $P_{\text{dump}}$: Penalti penurunan tajam tanpa pemulihan (kurangi 15-30 poin).
+- $B_{\text{vol}}$: Bonus likuiditas dan rasio volume terhadap likuiditas yang sehat (hingga +15 poin).
+
+#### Kategori Label Token:
+- 🟢 **ORGANIC / LEGIT GEM** (Skor 80 - 100): Distribusi desentralistis sehat, dev pegang <5%, sosial aktif, likuiditas memadai.
+- 🟡 **SPECULATIVE MEME** (Skor 50 - 79): Volatilitas tinggi, dev pegang 5%-15%, cocok untuk scalping cepat dengan batas ketat.
+- 🔴 **HIGH RISK / RUGPULL DETECTED** (Skor 0 - 49): Dev monopoli >20%, sosial palsu/mati, atau pola *bundling dump*.
+
+### 16.5 Deteksi Diskon Entry ATH (-50% & -70% Dip Zone)
+
+Sistem melacak titik tertinggi sepanjang masa (*All-Time High / ATH*) dari riwayat harga:
+1. **Level Diskon -50% ATH**: Sinyal *Speculative Bounce Zone* (koreksi wajar pada tren naik memecoin yang sehat).
+2. **Level Diskon -70% ATH**: Sinyal *Deep Value Dip Zone* (area akumulasi diskon ekstrem jika fundamental komunitas masih hidup).
+3. Indikator visual menunjukkan posisi harga saat ini terhadap kedua ambang batas diskon tersebut untuk memandu keputusan entry trader.
+
+### 16.6 Emergency Dump Warning & Auto Alert Popup (>70% Drop from Peak)
+
+Jika token mengalami penurunan harga lebih dari **70%** dari titik tertinggi lokal (*local high*) dengan kondisi:
+1. Tekanan jual mendominasi (*Sell volume > 75%*), atau
+2. Dompet pencipta (*Dev wallet*) melepas kepemilikannya secara masif:
+
+Sistem secara otomatis memunculkan **Emergency Critical Alert Popup**:
+> **PERINGATAN KRITIS: CRITICAL DUMP / RUGPULL TERDETEKSI!**  
+> Token mengalami penurunan tajam -XX% dari puncak dengan likuiditas mengering.  
+> Rekomendasi: **Segera keluar dan likuidasi seluruh posisi (Panic Sell All)!**
+
+Popup dilengkapi tombol satu-klik `[🚨 Lakukan Panic Sell All]` yang langsung memicu fungsi likuidasi darurat ke seluruh dompet aktif.
+
+### 16.7 Client-Side Momentum & Backtest Trade Logger
+
+- Sistem menyediakan ringkasan sinyal momentum: `STRONG BUY`, `ACCUMULATE DIP`, `WAIT & WATCH`, `TAKE PROFIT`, atau `EMERGENCY EXIT`.
+- Pengguna dapat mencatat rekomendasi sinyal ke dalam log backtest lokal di IndexedDB guna mengevaluasi efektivitas strategi entry/exit sepanjang sesi perdagangan.
+
+---
+
 ### Verifikasi Kepatuhan Standar (Delivery Gate Verification)
 - [x] **Zero Em-Dash Policy:** Dokumen sepenuhnya bebas dari karakter em dash (mematuhi aturan R-02).
 - [x] **Monorepo Architecture:** Menggunakan struktur Turborepo + pnpm workspaces (`apps/web`, `packages/solana-engine`, `packages/crypto-vault`, `packages/types`, `packages/ui`).
@@ -487,3 +597,5 @@ Jika konfigurasi Supabase diaktifkan dalam proyek:
 - [x] **Kriptografi Standar Industri:** Menggunakan Web Crypto API (PBKDF2 SHA-256 + AES-GCM-256) dan IndexedDB.
 - [x] **Arsitektur Resilien:** Mendukung VersionedTransaction v0, Private RPC routing, dan `Promise.allSettled`.
 - [x] **Konfigurasi Lengkap:** Matriks variabel lingkungan Bab 15 mencakup Private RPC, DEX API, IndexedDB, dan batasan Supabase.
+- [x] **Token Intelligence Terintegrasi:** Bab 16 mendefinisikan tabs analitik gaya Pump.fun, modal analisis draggable, safety score, diskon ATH, dan peringatan darurat rugpull.
+

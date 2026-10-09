@@ -11,6 +11,7 @@ import {
   Flame,
   Droplets,
   DollarSign,
+  Zap,
 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent, Badge, Button } from '@repo/ui';
 import type { TokenPriceData } from '@repo/types';
@@ -20,6 +21,7 @@ interface TokenCandlestickChartProps {
   tokenData: TokenPriceData | null | undefined;
   isLoading: boolean;
   onRefresh?: () => void;
+  onOpenAnalyzer?: () => void;
 }
 
 export function formatSmartPrice(price: number): string {
@@ -36,6 +38,7 @@ export const TokenCandlestickChart: React.FC<TokenCandlestickChartProps> = ({
   tokenData,
   isLoading,
   onRefresh,
+  onOpenAnalyzer,
 }) => {
   const [iframeKey, setIframeKey] = useState(0);
 
@@ -163,6 +166,17 @@ export const TokenCandlestickChart: React.FC<TokenCandlestickChartProps> = ({
               <span className="px-2 py-0.5 rounded-md bg-zinc-900 text-zinc-300 border border-zinc-800 hidden sm:inline">
                 Vol 24h: ${(tokenData.volume24h / 1000).toFixed(1)}K
               </span>
+            )}
+
+            {onOpenAnalyzer && (
+              <button
+                type="button"
+                onClick={onOpenAnalyzer}
+                className="px-2.5 py-1 rounded-md bg-gradient-to-r from-amber-500/20 via-cyan-500/20 to-emerald-500/20 hover:from-amber-500/30 hover:via-cyan-500/30 hover:to-emerald-500/30 text-amber-300 border border-amber-500/40 text-[11px] font-bold flex items-center gap-1.5 shadow-sm shadow-amber-500/10 transition-all hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <Zap className="w-3.5 h-3.5 text-amber-400 fill-amber-400 animate-pulse" />
+                Analyze Token
+              </button>
             )}
           </div>
         )}
