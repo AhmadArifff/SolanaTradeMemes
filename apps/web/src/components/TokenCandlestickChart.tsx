@@ -100,17 +100,6 @@ export const TokenCandlestickChart: React.FC<TokenCandlestickChartProps> = ({
 
           {/* Sisi Kanan: Tautan Eksternal & Aksi */}
           <div className="flex items-center gap-1.5 text-xs">
-            {onOpenAnalyzer && (
-              <button
-                type="button"
-                onClick={onOpenAnalyzer}
-                className="px-2.5 py-1 rounded-lg bg-gradient-to-r from-amber-500/20 via-cyan-500/20 to-emerald-500/20 hover:from-amber-500/30 hover:via-cyan-500/30 hover:to-emerald-500/30 text-amber-300 border border-amber-500/50 text-[11px] font-bold flex items-center gap-1.5 shadow-sm shadow-amber-500/10 transition-all hover:scale-[1.02] active:scale-[0.98]"
-                title="Buka Modal Analisis Token (Hype, Socials, Safety Score, Diskon ATH & AI Audit)"
-              >
-                <Zap className="w-3.5 h-3.5 text-amber-400 fill-amber-400 animate-pulse" />
-                <span>Analyze Token</span>
-              </button>
-            )}
             <button
               type="button"
               onClick={handleReloadIframe}
@@ -140,57 +129,62 @@ export const TokenCandlestickChart: React.FC<TokenCandlestickChartProps> = ({
         </div>
 
         {/* Baris Kedua: Metrik Likuiditas, Volume, & Perubahan 24 Jam */}
-        {tokenData && (
-          <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px]">
-            {tokenData.priceChange24h !== undefined && (
-              <span
-                className={`px-2 py-0.5 rounded-md font-bold flex items-center gap-1 ${
-                  tokenData.priceChange24h >= 0
-                    ? 'bg-emerald-950/60 text-emerald-400 border border-emerald-800/50'
-                    : 'bg-rose-950/60 text-rose-400 border border-rose-800/50'
-                }`}
-              >
-                {tokenData.priceChange24h >= 0 ? (
-                  <TrendingUp className="w-3 h-3" />
-                ) : (
-                  <TrendingDown className="w-3 h-3" />
-                )}
-                {tokenData.priceChange24h >= 0 ? '+' : ''}
-                {tokenData.priceChange24h.toFixed(2)}%
-              </span>
-            )}
+        <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px]">
+          {tokenData ? (
+            <>
+              {tokenData.priceChange24h !== undefined && (
+                <span
+                  className={`px-2 py-0.5 rounded-md font-bold flex items-center gap-1 ${
+                    tokenData.priceChange24h >= 0
+                      ? 'bg-emerald-950/60 text-emerald-400 border border-emerald-800/50'
+                      : 'bg-rose-950/60 text-rose-400 border border-rose-800/50'
+                  }`}
+                >
+                  {tokenData.priceChange24h >= 0 ? (
+                    <TrendingUp className="w-3 h-3" />
+                  ) : (
+                    <TrendingDown className="w-3 h-3" />
+                  )}
+                  {tokenData.priceChange24h >= 0 ? '+' : ''}
+                  {tokenData.priceChange24h.toFixed(2)}%
+                </span>
+              )}
 
-            {tokenData.liquidityUsd !== undefined && (
-              <span className="px-2 py-0.5 rounded-md bg-zinc-900 text-zinc-300 border border-zinc-800 flex items-center gap-1">
-                <Droplets className="w-3 h-3 text-cyan-400" />
-                Liq: ${(tokenData.liquidityUsd / 1000).toFixed(1)}K
-              </span>
-            )}
+              {tokenData.liquidityUsd !== undefined && (
+                <span className="px-2 py-0.5 rounded-md bg-zinc-900 text-zinc-300 border border-zinc-800 flex items-center gap-1">
+                  <Droplets className="w-3 h-3 text-cyan-400" />
+                  Liq: ${(tokenData.liquidityUsd / 1000).toFixed(1)}K
+                </span>
+              )}
 
-            {tokenData.marketCapUsd !== undefined && (
-              <span className="px-2 py-0.5 rounded-md bg-zinc-900 text-zinc-300 border border-zinc-800">
-                MCap: ${(tokenData.marketCapUsd / 1000).toFixed(1)}K
-              </span>
-            )}
+              {tokenData.marketCapUsd !== undefined && (
+                <span className="px-2 py-0.5 rounded-md bg-zinc-900 text-zinc-300 border border-zinc-800">
+                  MCap: ${(tokenData.marketCapUsd / 1000).toFixed(1)}K
+                </span>
+              )}
 
-            {tokenData.volume24h !== undefined && (
-              <span className="px-2 py-0.5 rounded-md bg-zinc-900 text-zinc-300 border border-zinc-800 hidden sm:inline">
-                Vol 24h: ${(tokenData.volume24h / 1000).toFixed(1)}K
-              </span>
-            )}
+              {tokenData.volume24h !== undefined && (
+                <span className="px-2 py-0.5 rounded-md bg-zinc-900 text-zinc-300 border border-zinc-800 hidden sm:inline">
+                  Vol 24h: ${(tokenData.volume24h / 1000).toFixed(1)}K
+                </span>
+              )}
+            </>
+          ) : (
+            <span className="text-zinc-500 text-[10px] animate-pulse">Memuat data live DexScreener...</span>
+          )}
 
-            {onOpenAnalyzer && (
-              <button
-                type="button"
-                onClick={onOpenAnalyzer}
-                className="px-2.5 py-1 rounded-md bg-gradient-to-r from-amber-500/20 via-cyan-500/20 to-emerald-500/20 hover:from-amber-500/30 hover:via-cyan-500/30 hover:to-emerald-500/30 text-amber-300 border border-amber-500/40 text-[11px] font-bold flex items-center gap-1.5 shadow-sm shadow-amber-500/10 transition-all hover:scale-[1.02] active:scale-[0.98]"
-              >
-                <Zap className="w-3.5 h-3.5 text-amber-400 fill-amber-400 animate-pulse" />
-                Analyze Token
-              </button>
-            )}
-          </div>
-        )}
+          {onOpenAnalyzer && (
+            <button
+              type="button"
+              onClick={onOpenAnalyzer}
+              className="px-2.5 py-1 rounded-md bg-gradient-to-r from-amber-500/20 via-cyan-500/20 to-emerald-500/20 hover:from-amber-500/30 hover:via-cyan-500/30 hover:to-emerald-500/30 text-amber-300 border border-amber-500/40 text-[11px] font-bold flex items-center gap-1.5 shadow-sm shadow-amber-500/10 transition-all hover:scale-[1.02] active:scale-[0.98]"
+              title="Buka Modal Analisis Token (Hype, Socials, Safety Score, Diskon ATH & AI Audit)"
+            >
+              <Zap className="w-3.5 h-3.5 text-amber-400 fill-amber-400 animate-pulse" />
+              Analyze Token
+            </button>
+          )}
+        </div>
       </CardHeader>
 
       {/* Jendela Grafik Iframe DexScreener TradingView Engine */}

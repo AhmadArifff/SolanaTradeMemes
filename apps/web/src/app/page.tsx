@@ -121,7 +121,6 @@ export default function TerminalPage() {
         onOpenUnlockModal={() => setIsUnlockModalOpen(true)}
         onOpenImportModal={() => setIsImportModalOpen(true)}
         onOpenAiConfigModal={() => setIsAiConfigModalOpen(true)}
-        onOpenTokenAnalyzer={() => setIsAnalyzerModalOpen(true)}
         onRefreshBalances={handleRefreshBalances}
         isRefreshing={isRefreshing}
         rpcLatencyMs={rpcLatencyMs}
@@ -159,7 +158,6 @@ export default function TerminalPage() {
                 <TradingPanel
                   connection={connection}
                   onTradeExecuted={handleTradeExecuted}
-                  onOpenTokenAnalyzer={() => setIsAnalyzerModalOpen(true)}
                 />
               </div>
             </div>
@@ -176,7 +174,6 @@ export default function TerminalPage() {
               <TradingPanel
                 connection={connection}
                 onTradeExecuted={handleTradeExecuted}
-                onOpenTokenAnalyzer={() => setIsAnalyzerModalOpen(true)}
               />
             </div>
 

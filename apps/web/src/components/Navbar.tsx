@@ -12,7 +12,6 @@ interface NavbarProps {
   isRefreshing: boolean;
   rpcLatencyMs: number | null;
   onOpenAiConfigModal?: () => void;
-  onOpenTokenAnalyzer?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -22,7 +21,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   isRefreshing,
   rpcLatencyMs,
   onOpenAiConfigModal,
-  onOpenTokenAnalyzer,
 }) => {
   const { isUnlocked, lockVault, wallets } = useTerminalStore();
 
@@ -82,20 +80,6 @@ export const Navbar: React.FC<NavbarProps> = ({
             <Plus className="w-3.5 h-3.5 text-cyan-400" />
             <span>Impor Dompet</span>
           </Button>
-
-          {/* Analyze Token Modal Button */}
-          {onOpenTokenAnalyzer && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onOpenTokenAnalyzer}
-              className="text-xs font-mono border-amber-500/40 text-amber-300 hover:bg-amber-950/40 hover:text-amber-200 shadow-sm shadow-amber-500/10"
-              title="Buka Modal Analisis Token (Hype, Socials, Safety Score & AI)"
-            >
-              <Zap className="w-3.5 h-3.5 text-amber-400 fill-amber-400 animate-pulse" />
-              <span className="hidden sm:inline">Analyze Token</span>
-            </Button>
-          )}
 
           {/* AI Config Button */}
           {onOpenAiConfigModal && (

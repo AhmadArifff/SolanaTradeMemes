@@ -26,13 +26,11 @@ import { formatSmartPrice } from './TokenCandlestickChart';
 interface TradingPanelProps {
   connection: Connection;
   onTradeExecuted: () => void;
-  onOpenTokenAnalyzer?: () => void;
 }
 
 export const TradingPanel: React.FC<TradingPanelProps> = ({
   connection,
   onTradeExecuted,
-  onOpenTokenAnalyzer,
 }) => {
   const {
     activeMint,
@@ -100,17 +98,6 @@ export const TradingPanel: React.FC<TradingPanelProps> = ({
             <CardTitle className="text-sm font-mono tracking-wide">
               Panel Eksekusi Sniper
             </CardTitle>
-            {onOpenTokenAnalyzer && (
-              <button
-                type="button"
-                onClick={onOpenTokenAnalyzer}
-                className="px-2 py-0.5 rounded bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 text-[10px] font-mono font-bold flex items-center gap-1 transition-colors"
-                title="Buka Modal Analisis Token (Safety Score, ATH Discount, Hype & AI Audit)"
-              >
-                <Zap className="w-3 h-3 text-amber-400 fill-amber-400 animate-pulse" />
-                <span>Analyze Token</span>
-              </button>
-            )}
           </div>
           <div className="flex items-center gap-1.5 bg-zinc-900/80 p-0.5 rounded-lg border border-zinc-800 text-[11px] font-mono">
             <button
