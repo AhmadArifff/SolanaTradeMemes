@@ -1,14 +1,18 @@
 {
-  "session_id": "session-solana-terminal-20261009",
+  "session_id": "session-solana-terminal-20261009-01",
   "project": "SolanaTradeMemes",
+  "tagline": "Pure Client-Side Multi-Wallet Trading Terminal for Solana Memecoins",
+  "repository": "https://github.com/AhmadArifff/SolanaTradeMemes.git",
+  "active_branch": "dev",
   "version": "1.1.0",
-  "active_goal": "Setup tata kelola multi-agen, session state tracker, dokumentasi pengembangan tim (DEVELOPMENT_GUIDE.md & CONFIG_GUIDE.md), dan persiapan inisialisasi Monorepo Turborepo + pnpm",
   "status": "IN_PROGRESS",
-  "branch": "dev",
+  "active_goal": "Inisialisasi Kubah Kriptografi Terisolasi @repo/crypto-vault (PBKDF2 + AES-GCM-256 + idb + Memory Zeroing + Vitest)",
+  "last_updated": "2026-10-09T07:16:00+07:00",
+  "current_sprint": "Sprint 1: Scaffolding Monorepo, Shared Types, & Crypto Vault Security",
   "completed_milestones": [
     {
       "id": "M0_DOCS_AND_GOVERNANCE_INITIALIZATION",
-      "title": "Inisialisasi Blueprint PRD v1.1, AGENTS.md, CONFIG_GUIDE.md, DEVELOPMENT_GUIDE.md, dan .agents Governance Framework",
+      "title": "Inisialisasi Blueprint PRD v1.1 (14 Seksi), AGENTS.md, CONFIG_GUIDE.md, DEVELOPMENT_GUIDE.md, dan .agents Governance Framework",
       "prd_sections": [
         "Seksi 1",
         "Seksi 2",
@@ -26,9 +30,81 @@
         "Seksi 14"
       ],
       "status": "VERIFIED_PASS",
-      "verified_at": "2026-10-09"
+      "verified_at": "2026-10-09",
+      "details": "Blueprint PRD v1.1 komprehensif, panduan konfigurasi RPC dan .env.local, panduan kolaborasi tim multi-device, dan framework tata kelola agen 7 pilar."
+    },
+    {
+      "id": "M1_MONOREPO_SCAFFOLDING_TURBO",
+      "title": "Inisialisasi Root Monorepo Turborepo, pnpm workspaces, tsconfig base, dan paket @repo/types",
+      "prd_sections": ["Seksi 4", "Seksi 5", "Seksi 14"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Root package.json, pnpm-workspace.yaml, turbo.json, @repo/typescript-config (base, nextjs, react-library), dan paket @repo/types dengan skema Zod, Result pattern, dan konstanta default."
     }
   ],
+  "in_progress_milestones": [
+    {
+      "id": "M2_CRYPTO_VAULT_SECURITY",
+      "title": "Kubah Kriptografi Lokal: Web Crypto API PBKDF2 + AES-GCM-256, IndexedDB idb, Memory Purge, & Vitest",
+      "prd_sections": ["Seksi 5.4", "Seksi 7.1", "Seksi 10.1", "Seksi 11.2"],
+      "status": "READY_TO_START",
+      "target_deliverables": [
+        "packages/crypto-vault/package.json",
+        "packages/crypto-vault/src/kdf.ts",
+        "packages/crypto-vault/src/cipher.ts",
+        "packages/crypto-vault/src/storage.ts",
+        "packages/crypto-vault/src/sanitize.ts",
+        "packages/crypto-vault/src/index.ts",
+        "packages/crypto-vault/test/vault.test.ts"
+      ]
+    }
+  ],
+  "upcoming_milestones": [
+    {
+      "id": "M3_SOLANA_ENGINE_PUMPPORTAL",
+      "title": "Mesin Transaksi Solana: PumpPortal trade-local, VersionedTx v0 Signer, Parallel Broadcaster, & Vitest",
+      "prd_sections": ["Seksi 5.3", "Seksi 7.2", "Seksi 10.3", "Seksi 11.1"],
+      "status": "PENDING"
+    },
+    {
+      "id": "M4_SHARED_UI_DESIGN_SYSTEM",
+      "title": "Desain Sistem UI Cyberpunk Dark DeFi: Radix UI Primitives, Tailwind CSS, Data Table, & Status Badges",
+      "prd_sections": ["Seksi 4.1", "Seksi 5", "Seksi 8"],
+      "status": "PENDING"
+    },
+    {
+      "id": "M5_TERMINAL_FRONTEND_APPS_WEB",
+      "title": "Aplikasi Terminal Next.js 15 Client SPA: Zustand store, TanStack Query 5s adaptive polling, Panic Sell, & Trade Ledger PnL",
+      "prd_sections": ["Seksi 5.2", "Seksi 7.3", "Seksi 7.4", "Seksi 7.5", "Seksi 10.2", "Seksi 10.4", "Seksi 10.5"],
+      "status": "PENDING"
+    },
+    {
+      "id": "M6_ZERO_LEAK_AUDIT_AND_DELIVERY",
+      "title": "Audit Keamanan Kunci Zero-Exfiltration, Penanganan Edge Cases RPC HTTP 429, & Delivery Gate",
+      "prd_sections": ["Seksi 11", "Seksi 12", "Seksi 13"],
+      "status": "PENDING"
+    }
+  ],
+  "prd_coverage_tracker": {
+    "Seksi 1: Executive Summary (Pure Client-Side Zero Backend)": "MAPPED",
+    "Seksi 2: Problem Statement & Latar Belakang Industri": "MAPPED",
+    "Seksi 3: Profil Pengguna (Meme Scalper / Multi-Wallet Sniper)": "MAPPED",
+    "Seksi 4: Arsitektur Monorepo Turborepo + pnpm Workspaces": "VERIFIED_PASS",
+    "Seksi 5: Review & Rekomendasi Tech Stack": "VERIFIED_PASS",
+    "Seksi 6: Diagram Alur & Interaksi Antar-Paket": "MAPPED",
+    "Seksi 7.1: Kubah Kriptografi Lokal (PBKDF2 + AES-GCM + idb)": "READY_FOR_DEV",
+    "Seksi 7.2: Mesin Solana (PumpPortal trade-local & v0 Signer)": "READY_FOR_DEV",
+    "Seksi 7.3: Pemantauan Harga Real-Time (5s Adaptive Polling)": "MAPPED",
+    "Seksi 7.4: Buku Besar Riwayat & Realized PnL (Weighted Avg Cost)": "MAPPED",
+    "Seksi 7.5: Likuidasi Darurat Panic Sell All & Rent Reserve Guard": "MAPPED",
+    "Seksi 8: Alur Pipeline Data & Eksekusi 8 Langkah": "MAPPED",
+    "Seksi 9: Batasan Ruang Lingkup (In-Scope vs Out-of-Scope)": "MAPPED",
+    "Seksi 10: User Stories & Acceptance Criteria (Epic 1 s.d. 5)": "MAPPED",
+    "Seksi 11: Persyaratan Non-Fungsional (Latensi & Zero-Trust)": "MAPPED",
+    "Seksi 12: Matriks Penanganan Error & Skenario Tepi": "MAPPED",
+    "Seksi 13: Metrik Keberhasilan & Target Peluncuran": "MAPPED",
+    "Seksi 14: Panduan Setup & Delivery Gate Verification": "VERIFIED_PASS"
+  },
   "established_constraints": [
     "Branch Mandate: Seluruh pengembangan aktif, perbaikan bug, dan penambahan fitur WAJIB dilakukan di branch dev. Dilarang commit/push langsung ke main.",
     "Pre-Dev Git Pull Mandate: Setiap memulai pekerjaan baru atau beralih sesi/device, WAJIB git pull --rebase origin dev terlebih dahulu untuk mencegah konflik kode.",
@@ -45,42 +121,10 @@
     "Zero Dead Code Policy: Bersihkan seluruh kode usang, berkas sementara, dan dependensi tidak terpakai pada setiap iterasi.",
     "Continuous Session Sync: Setiap kali ada perubahan fitur atau prompt baru, wajib perbarui active-session.json, buat git commit, dan push ke origin dev agar agen di device/sesi lain tersinkronisasi."
   ],
-  "next_recommended_actions": [
-    "Langkah 1: Selesai - Pembuatan DEVELOPMENT_GUIDE.md sebagai panduan komprehensif kolaborasi tim",
-    "Langkah 2: Selesai - Pembuatan active-session.json di .agents/session-state/ dan sinkronisasi ke git dev",
-    "Langkah 3: Inisialisasi Monorepo Turborepo + pnpm workspaces (package.json, turbo.json, pnpm-workspace.yaml)",
-    "Langkah 4: Pembuatan paket @repo/types (kontrak Zod schemas & TypeScript DTOs)",
-    "Langkah 5: Pembuatan paket @repo/crypto-vault (PBKDF2 + AES-GCM-256 + idb + Memory Purge + Vitest)",
-    "Langkah 6: Pembuatan paket @repo/solana-engine (PumpPortal client + v0 Signer + Promise.allSettled + Vitest)",
-    "Langkah 7: Pembuatan paket @repo/ui (Komponen Cyberpunk DeFi terminal)",
-    "Langkah 8: Integrasi apps/web (Next.js 15 Client SPA, TanStack Query 5s adaptive polling, Zustand, Panic Sell All, Trade Ledger)"
-  ],
-  "prd_tracking": {
-    "epic_1_crypto_vault": {
-      "name": "Manajemen Vault & Kriptografi Lokal",
-      "target_package": "packages/crypto-vault",
-      "status": "READY_FOR_SCAFFOLDING"
-    },
-    "epic_2_price_monitoring": {
-      "name": "Pemantauan Harga Real-Time 5 Detik & Portofolio",
-      "target_package": "apps/web",
-      "status": "PLANNED"
-    },
-    "epic_3_multi_wallet_execution": {
-      "name": "Eksekusi Multi-Wallet Paralel (PumpPortal trade-local & v0 Signer)",
-      "target_package": "packages/solana-engine",
-      "status": "READY_FOR_SCAFFOLDING"
-    },
-    "epic_4_trade_ledger_pnl": {
-      "name": "Buku Besar Riwayat & Realized PnL Tracker (IndexedDB & Export)",
-      "target_package": "apps/web",
-      "status": "PLANNED"
-    },
-    "epic_5_emergency_liquidation": {
-      "name": "Likuidasi Darurat Panic Sell All & Preset Eksekusi Cepat",
-      "target_package": "apps/web + packages/solana-engine",
-      "status": "PLANNED"
-    }
-  },
-  "last_updated": "2026-10-09T06:58:00+07:00"
+  "active_agent_pipeline": {
+    "current_stage": "STAGE_2_CRYPTO_VAULT_DEVELOPMENT",
+    "active_role": "crypto-vault-engineer",
+    "next_role": "solana-engine-engineer",
+    "reviewer_role": "tech-critic / qa-engineer"
+  }
 }

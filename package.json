@@ -1,0 +1,22 @@
+{
+  "name": "solana-trade-memes",
+  "version": "1.1.0",
+  "private": true,
+  "description": "Pure Client-Side Multi-Wallet Trading Terminal for Solana Memecoins",
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "clean": "turbo clean"
+  },
+  "devDependencies": {
+    "turbo": "^2.4.4",
+    "typescript": "^5.8.2"
+  },
+  "packageManager": "pnpm@12.10.1",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  }
+}
