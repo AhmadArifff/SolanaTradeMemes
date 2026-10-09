@@ -4,11 +4,11 @@
   "tagline": "Pure Client-Side Multi-Wallet Trading Terminal for Solana Memecoins",
   "repository": "https://github.com/AhmadArifff/SolanaTradeMemes.git",
   "active_branch": "dev",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "status": "IN_PROGRESS",
-  "active_goal": "Implementasi Mesin Transaksi Solana @repo/solana-engine (PumpPortal trade-local, VersionedTransaction v0 Signer, Parallel Broadcaster, & Vitest)",
-  "last_updated": "2026-10-09T07:37:00+07:00",
-  "current_sprint": "Sprint 2: Solana Execution Engine & PumpPortal Integration",
+  "active_goal": "Implementasi Desain Sistem UI Cyberpunk Dark DeFi @repo/ui (Radix UI Primitives, Tailwind CSS, Token Matrix, Data Table, & Status Badges)",
+  "last_updated": "2026-10-09T07:56:00+07:00",
+  "current_sprint": "Sprint 3: Shared UI Cyberpunk Dark Design System & Terminal Shell",
   "completed_milestones": [
     {
       "id": "M0_PRD_AND_DOCS_INITIALIZATION",
@@ -60,33 +60,35 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-09",
       "details": "Paket @repo/crypto-vault selesai dengan implementasi kdf.ts (PBKDF2 100k iterasi), cipher.ts (AES-GCM 256-bit + 128-bit tag), storage.ts (IndexedDB wrapper idb), sanitize.ts (RAM zero-out buffer.fill(0)), vault.ts (CryptoVault session manager). 12/12 unit test Vitest lolos dan 0 TypeScript errors."
-    }
-  ],
-  "in_progress_milestones": [
+    },
     {
       "id": "M6_SOLANA_ENGINE_PUMPPORTAL",
       "title": "Mesin Transaksi Solana: PumpPortal trade-local, VersionedTx v0 Signer, Parallel Broadcaster, & Vitest",
       "prd_sections": ["Bab 5.3", "Bab 7.2", "Bab 10.3", "Bab 11.1"],
-      "status": "IN_PROGRESS",
-      "target_deliverables": [
-        "packages/solana-engine/package.json",
-        "packages/solana-engine/src/pumpportal.ts",
-        "packages/solana-engine/src/signer.ts",
-        "packages/solana-engine/src/broadcast.ts",
-        "packages/solana-engine/src/balance.ts",
-        "packages/solana-engine/src/emergency.ts",
-        "packages/solana-engine/src/index.ts",
-        "packages/solana-engine/test/engine.test.ts"
-      ]
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Paket @repo/solana-engine selesai dengan implementasi pumpportal.ts (pemanggilan trade-local endpoint murni dari browser), signer.ts (deserialisasi VersionedTransaction v0 dan Keypair signing lokal di RAM), broadcast.ts (Promise.allSettled paralel ke Private RPC Helius/QuickNode dengan skipPreflight: true dan penanganan kode error 0x1770, 0x1, 429), emergency.ts (Panic Sell All likuidasi serentak). 9/9 unit test Vitest lolos dan 0 TypeScript errors."
     }
   ],
-  "upcoming_milestones": [
+  "in_progress_milestones": [
     {
       "id": "M7_SHARED_UI_DESIGN_SYSTEM",
       "title": "Desain Sistem UI Cyberpunk Dark DeFi: Radix UI Primitives, Tailwind CSS, Data Table, & Status Badges",
       "prd_sections": ["Bab 4.1", "Bab 5", "Bab 8"],
-      "status": "PENDING"
-    },
+      "status": "IN_PROGRESS",
+      "target_deliverables": [
+        "packages/ui/package.json",
+        "packages/ui/src/components/badge.tsx",
+        "packages/ui/src/components/button.tsx",
+        "packages/ui/src/components/card.tsx",
+        "packages/ui/src/components/dialog.tsx",
+        "packages/ui/src/components/input.tsx",
+        "packages/ui/src/components/table.tsx",
+        "packages/ui/src/index.ts"
+      ]
+    }
+  ],
+  "upcoming_milestones": [
     {
       "id": "M8_TERMINAL_FRONTEND_APPS_WEB",
       "title": "Aplikasi Terminal Next.js 15 Client SPA: Zustand store, TanStack Query 5s adaptive polling, Panic Sell, & Trade Ledger PnL",
@@ -108,7 +110,7 @@
     "Bab 5: Review & Rekomendasi Tech Stack": "VERIFIED_PASS",
     "Bab 6: Diagram Alur & Interaksi Antar-Paket": "VERIFIED_PASS",
     "Bab 7.1: Kubah Kriptografi Lokal (PBKDF2 + AES-GCM + idb)": "VERIFIED_PASS",
-    "Bab 7.2: Mesin Solana (PumpPortal trade-local & v0 Signer)": "IN_PROGRESS",
+    "Bab 7.2: Mesin Solana (PumpPortal trade-local & v0 Signer)": "VERIFIED_PASS",
     "Bab 7.3: Pemantauan Harga Real-Time (5s Adaptive Polling)": "READY_FOR_DEV",
     "Bab 7.4: Buku Besar Riwayat & Realized PnL (Weighted Avg Cost)": "READY_FOR_DEV",
     "Bab 7.5: Likuidasi Darurat Panic Sell All & Rent Reserve Guard": "READY_FOR_DEV",
@@ -138,16 +140,15 @@
     "Continuous Session Sync: Setiap kali ada perubahan fitur atau prompt baru, wajib perbarui active-session.json, buat git commit, dan push ke origin dev agar agen di device/sesi lain tersinkronisasi."
   ],
   "active_agent_pipeline": {
-    "current_stage": "STAGE_3_SOLANA_ENGINE_DEVELOPMENT",
-    "active_role": "solana-engine-engineer",
-    "next_role": "ui-designer / frontend-engineer",
+    "current_stage": "STAGE_4_UI_DESIGN_SYSTEM_DEVELOPMENT",
+    "active_role": "ui-ux-designer / frontend-engineer",
+    "next_role": "frontend-terminal-engineer",
     "reviewer_role": "tech-critic / qa-engineer"
   },
   "next_actionable_steps": [
-    "Commit dan push implementasi @repo/crypto-vault beserta pembaruan session state ke branch dev",
-    "Inisialisasi paket packages/solana-engine: pasang @solana/web3.js, @repo/types, dan devDependencies vitest",
-    "Implementasi packages/solana-engine/src/pumpportal.ts (pemanggilan trade-local endpoint tanpa menyertakan private key)",
-    "Implementasi packages/solana-engine/src/signer.ts (deserialisasi VersionedTransaction v0 dan penandatanganan Keypair lokal)",
-    "Implementasi packages/solana-engine/src/broadcast.ts (Promise.allSettled direct RPC broadcast dengan skipPreflight)"
+    "Commit dan push implementasi @repo/solana-engine beserta pembaruan session state ke branch dev",
+    "Inisialisasi paket packages/ui: pasang dependencies Radix UI primitives, tailwind-merge, clsx, cva",
+    "Implementasi komponen dasar Cyberpunk Dark DeFi: button, input, badge, card, dialog, table",
+    "Verifikasi linting dan typecheck pada packages/ui sebelum lanjut ke apps/web"
   ]
 }
