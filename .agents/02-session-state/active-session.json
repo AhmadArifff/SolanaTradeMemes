@@ -4,11 +4,11 @@
   "tagline": "Pure Client-Side Multi-Wallet Trading Terminal for Solana Memecoins",
   "repository": "https://github.com/AhmadArifff/SolanaTradeMemes.git",
   "active_branch": "dev",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "status": "IN_PROGRESS",
-  "active_goal": "Implementasi Desain Sistem UI Cyberpunk Dark DeFi @repo/ui (Radix UI Primitives, Tailwind CSS, Token Matrix, Data Table, & Status Badges)",
-  "last_updated": "2026-10-09T07:56:00+07:00",
-  "current_sprint": "Sprint 3: Shared UI Cyberpunk Dark Design System & Terminal Shell",
+  "active_goal": "Implementasi Aplikasi Frontend Terminal Next.js 15 Client SPA apps/web (Zustand Store, TanStack Query 5s Adaptive Polling, Panic Sell All, & Trade Ledger Realized PnL)",
+  "last_updated": "2026-10-09T08:11:00+07:00",
+  "current_sprint": "Sprint 4: Next.js 15 Terminal SPA Frontend & Trade Ledger",
   "completed_milestones": [
     {
       "id": "M0_PRD_AND_DOCS_INITIALIZATION",
@@ -68,33 +68,36 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-09",
       "details": "Paket @repo/solana-engine selesai dengan implementasi pumpportal.ts (pemanggilan trade-local endpoint murni dari browser), signer.ts (deserialisasi VersionedTransaction v0 dan Keypair signing lokal di RAM), broadcast.ts (Promise.allSettled paralel ke Private RPC Helius/QuickNode dengan skipPreflight: true dan penanganan kode error 0x1770, 0x1, 429), emergency.ts (Panic Sell All likuidasi serentak). 9/9 unit test Vitest lolos dan 0 TypeScript errors."
-    }
-  ],
-  "in_progress_milestones": [
+    },
     {
       "id": "M7_SHARED_UI_DESIGN_SYSTEM",
       "title": "Desain Sistem UI Cyberpunk Dark DeFi: Radix UI Primitives, Tailwind CSS, Data Table, & Status Badges",
       "prd_sections": ["Bab 4.1", "Bab 5", "Bab 8"],
-      "status": "IN_PROGRESS",
-      "target_deliverables": [
-        "packages/ui/package.json",
-        "packages/ui/src/components/badge.tsx",
-        "packages/ui/src/components/button.tsx",
-        "packages/ui/src/components/card.tsx",
-        "packages/ui/src/components/dialog.tsx",
-        "packages/ui/src/components/input.tsx",
-        "packages/ui/src/components/table.tsx",
-        "packages/ui/src/index.ts"
-      ]
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Paket @repo/ui selesai dengan implementasi Button (variants: default, buy, sell, panic, outline, ghost), Badge (variants: buy, sell, fulfilled, rejected, pending dengan pulsing dot), Card (glassmorphism backdrop blur dan glow effect), Dialog (Radix UI modal unlock/import), Input (terminal monospace dengan prefix/suffix), dan Table (dense font-mono responsive). 0 TypeScript errors."
     }
   ],
-  "upcoming_milestones": [
+  "in_progress_milestones": [
     {
       "id": "M8_TERMINAL_FRONTEND_APPS_WEB",
       "title": "Aplikasi Terminal Next.js 15 Client SPA: Zustand store, TanStack Query 5s adaptive polling, Panic Sell, & Trade Ledger PnL",
       "prd_sections": ["Bab 5.2", "Bab 7.3", "Bab 7.4", "Bab 7.5", "Bab 10.2", "Bab 10.4", "Bab 10.5"],
-      "status": "PENDING"
-    },
+      "status": "IN_PROGRESS",
+      "target_deliverables": [
+        "apps/web/package.json",
+        "apps/web/src/app/layout.tsx",
+        "apps/web/src/app/page.tsx",
+        "apps/web/src/store/useTerminalStore.ts",
+        "apps/web/src/hooks/useTokenPrice.ts",
+        "apps/web/src/hooks/useTradeLedger.ts",
+        "apps/web/src/components/WalletManager.tsx",
+        "apps/web/src/components/TradingPanel.tsx",
+        "apps/web/src/components/TradeHistoryLedger.tsx"
+      ]
+    }
+  ],
+  "upcoming_milestones": [
     {
       "id": "M9_ZERO_LEAK_AUDIT_AND_DELIVERY",
       "title": "Audit Keamanan Kunci Zero-Exfiltration, Penanganan Edge Cases RPC HTTP 429, & Delivery Gate",
@@ -114,7 +117,7 @@
     "Bab 7.3: Pemantauan Harga Real-Time (5s Adaptive Polling)": "READY_FOR_DEV",
     "Bab 7.4: Buku Besar Riwayat & Realized PnL (Weighted Avg Cost)": "READY_FOR_DEV",
     "Bab 7.5: Likuidasi Darurat Panic Sell All & Rent Reserve Guard": "READY_FOR_DEV",
-    "Bab 8: Alur Pipeline Data & Eksekusi 8 Langkah": "MAPPED",
+    "Bab 8: Alur Pipeline Data & Eksekusi 8 Langkah": "VERIFIED_PASS",
     "Bab 9: Batasan Ruang Lingkup (In-Scope vs Out-of-Scope)": "MAPPED",
     "Bab 10: User Stories & Acceptance Criteria (Epic 1 s.d. 5)": "MAPPED",
     "Bab 11: Persyaratan Non-Fungsional (Latensi & Zero-Trust)": "MAPPED",
@@ -140,15 +143,17 @@
     "Continuous Session Sync: Setiap kali ada perubahan fitur atau prompt baru, wajib perbarui active-session.json, buat git commit, dan push ke origin dev agar agen di device/sesi lain tersinkronisasi."
   ],
   "active_agent_pipeline": {
-    "current_stage": "STAGE_4_UI_DESIGN_SYSTEM_DEVELOPMENT",
-    "active_role": "ui-ux-designer / frontend-engineer",
-    "next_role": "frontend-terminal-engineer",
-    "reviewer_role": "tech-critic / qa-engineer"
+    "current_stage": "STAGE_5_TERMINAL_FRONTEND_DEVELOPMENT",
+    "active_role": "frontend-terminal-engineer",
+    "next_role": "qa-engineer / security-engineer",
+    "reviewer_role": "tech-critic / user-test-professional"
   },
   "next_actionable_steps": [
-    "Commit dan push implementasi @repo/solana-engine beserta pembaruan session state ke branch dev",
-    "Inisialisasi paket packages/ui: pasang dependencies Radix UI primitives, tailwind-merge, clsx, cva",
-    "Implementasi komponen dasar Cyberpunk Dark DeFi: button, input, badge, card, dialog, table",
-    "Verifikasi linting dan typecheck pada packages/ui sebelum lanjut ke apps/web"
+    "Commit dan push implementasi @repo/ui beserta pembaruan session state ke branch dev",
+    "Scaffold aplikasi apps/web menggunakan Next.js 15 App Router SPA dengan Tailwind CSS",
+    "Konfigurasi Zustand store (useTerminalStore.ts) mengintegrasikan @repo/crypto-vault dan @repo/solana-engine",
+    "Implementasi TanStack Query useTokenPrice (DexScreener API) dengan 5s adaptive polling interval",
+    "Implementasi useTradeLedger (IndexedDB trade_history) dengan kalkulasi Weighted Average Cost Basis Realized PnL",
+    "Rakit antarmuka terminal utama: WalletManager, TradingPanel, PanicSellButton, dan TradeHistoryLedger"
   ]
 }
