@@ -10,6 +10,18 @@ Folder `.agents/` ini berfungsi sebagai pusat aturan, prosedur kerja, bank kasus
 
 ```
 .agents/
+├── 01-roles/                 # 22 Spesialis & 14 Expert Personas DNA
+│   └── EXPERT_PERSONAS_DNA.md
+├── 02-session-state/         # active-session.json & session-manager.js
+│   ├── active-session.json   # State aktif sesi yang dipush ke git
+│   ├── session-manager.js    # CLI inspector session state
+│   └── benchmark-reference.json
+├── 04-case-bank/             # Basis pengetahuan kasus terverifikasi
+│   └── index.json
+├── knowledge/                # Bank kasus & mitigasi error
+│   ├── README.md             # Panduan bank kasus
+│   ├── prd-index-map.md      # Peta cakupan 15 bab PRD
+│   └── terminal-cases.md     # Catatan bug, solusi rate limit RPC & PumpPortal
 ├── rules/                    # Aturan mutlak & standar rekayasa per bidang
 │   ├── 00-core-guardrails.md # Aturan mutlak keamanan kunci privat & larangan keras
 │   ├── 01-workflow-discipline.md # Siklus OODA, Review Gate, DoR/DoD
@@ -18,18 +30,15 @@ Folder `.agents/` ini berfungsi sebagai pusat aturan, prosedur kerja, bank kasus
 │   ├── 30-solana-engine-standards.md # @solana/web3.js v0, PumpPortal trade-local, broadcast
 │   ├── 40-frontend-terminal-standards.md # Next.js 15 Client SPA, TanStack Query, UI/UX
 │   └── 50-testing-qa-standards.md # Vitest, Playwright, test vectors
+├── skills/                   # Keahlian khusus proyek (On-Demand Skills)
+│   ├── solana-terminal-engine/   # Logika transaksi Solana v0 & PumpPortal
+│   └── crypto-vault-security/    # Kriptografi Web Crypto & IndexedDB terisolasi
 ├── workflows/                # Prosedur kerja baku (SOP)
 │   ├── task-review-protocol.md   # Evaluasi 7 Pilar sebelum mulai ngoding
 │   ├── new-package-or-module.md  # Pembuatan paket baru di Monorepo
 │   ├── crypto-security-audit.md  # Audit kebocoran kunci privat
 │   ├── multi-device-collaboration.md # SOP alur git branch dev & pull rebase
 │   └── playwright-testing.md     # SOP pengujian otomatis peramban (on-demand)
-├── skills/                   # Keahlian khusus proyek (On-Demand Skills)
-│   ├── solana-terminal-engine/   # Logika transaksi Solana v0 & PumpPortal
-│   └── crypto-vault-security/    # Kriptografi Web Crypto & IndexedDB terisolasi
-├── knowledge/                # Bank kasus & mitigasi error
-│   ├── README.md                 # Panduan bank kasus
-│   └── terminal-cases.md         # Catatan bug, solusi rate limit RPC & PumpPortal
 └── README.md                 # Berkas navigasi utama ini
 ```
 

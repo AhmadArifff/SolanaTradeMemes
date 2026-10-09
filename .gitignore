@@ -27,6 +27,7 @@ test-results/
 .env.production.local
 *.pem
 *.key
+DOC_SERVICES.md
 
 # Operating System & Editor Files
 .DS_Store

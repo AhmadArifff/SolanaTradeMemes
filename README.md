@@ -94,5 +94,9 @@ git push origin dev
 ## 5. Dokumentasi Teknis
 
 * **[PRD.md](./PRD.md):** Spesifikasi fungsional dan teknis lengkap.
+* **[DEVELOPMENT_GUIDE.md](./DEVELOPMENT_GUIDE.md):** Panduan kolaborasi tim, alur git, review gate, dan standar rekayasa kode.
+* **[CONFIG_GUIDE.md](./CONFIG_GUIDE.md):** Panduan langkah demi langkah memperoleh RPC Helius, DEX API, dan setup .env.local.
 * **[AGENTS.md](./AGENTS.md):** Tata kelola agen multi-role dan aturan arsitektur.
+* **[Active Session State](./.agents/02-session-state/active-session.json):** Status pelacakan milestone dan batasan sesi terkunci.
 * **[.agents/](./.agents/README.md):** Peta navigasi aturan keamanan, alur kerja (SOP), bank kasus, dan skill khusus.
+

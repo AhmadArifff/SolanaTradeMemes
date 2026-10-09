@@ -1,6 +1,6 @@
 # SOP Kolaborasi Tim & Alur Percabangan Git (Multi-Device Collaboration)
 
-> **Kapan Digunakan:** Wajib dipatuhi pada setiap siklus pengerjaan fitur, perbaikan bug, dan sebelum melakukan `git push` ke repositori remote.
+> **Kapan Digunakan:** Wajib dipatuhi pada setiap siklus pengerjaan fitur, prompt perubahan baru, perbaikan bug, dan sebelum melakukan `git push` ke repositori remote.
 
 ---
 
@@ -8,42 +8,57 @@
 
 * **Branch `main` (Production):**
   * Bertindak sebagai *Release/Production* yang stabil.
-  * Hanya menerima merge dari `dev` setelah pengujian fitur tuntas dan terverifikasi.
+  * Hanya menerima merge dari `dev` setelah pengujian fitur tuntas dan terverifikasi oleh QA Delivery Gate.
+  * Dilarang melakukan *direct commit* atau *force push* ke `main`.
 * **Branch `dev` (Development):**
-  * **Branch aktif utama untuk seluruh tim pengembangan.**
-  * Setiap pengerjaan tugas, penambahan fitur, dan perbaikan harian WAJIB berada di branch `dev`.
+  * **Branch aktif utama untuk seluruh tim pengembangan dan agen AI.**
+  * Setiap pengerjaan tugas, prompt perubahan, penambahan fitur, dan perbaikan harian WAJIB berada di branch `dev`.
   * Setiap *commit* dan *push* perubahan langsung diarahkan ke `dev`.
 
 ---
 
-## 2. Protokol Pra-Push: Wajib `git pull` Dahulu
+## 2. Siklus Baku 5-Langkah Kolaborasi Multi-Perangkat & Multi-Agen
 
-Karena proyek ini dikerjakan oleh tim multi-developer di lingkungan perangkat berbeda, untuk mengeliminasi potensi konflik kode (*code conflict*):
+Karena proyek ini dikerjakan oleh tim multi-developer dan multi-agen di perangkat berbeda, seluruh siklus pengerjaan prompt perubahan wajib menjalankan SOP 5 langkah berikut:
 
-### Langkah Standar Sebelum Mulai Bekerja:
+```mermaid
+flowchart TD
+    S1["1. Tarik State Terbaru<br/>git pull --rebase origin dev"] --> S2["2. Baca Sesi Aktif<br/>node .agents/02-session-state/session-manager.js"]
+    S2 --> S3["3. Eksekusi Task & PRD<br/>OODA Loop & 7 Pilar Review"]
+    S3 --> S4["4. Perbarui Session State<br/>active-session.json"]
+    S4 --> S5["5. Commit, Rebase & Push<br/>git push origin dev"]
+```
+
+### Langkah 1: Tarik Pembaruan Terbaru (*Pre-Dev Pull*)
+Sebelum memulai prompt atau tugas baru, selalu jalankan:
 ```bash
-# 1. Pastikan berada di branch dev
 git checkout dev
-
-# 2. Tarik perubahan terbaru dari remote sebelum menulis kode baru
 git pull --rebase origin dev
 ```
 
-### Langkah Standar Sebelum Melakukan Push:
+### Langkah 2: Inspeksi State Sesi Aktif (*Read Session State*)
+Periksa status milestone dan batasan arsitektur terkunci:
 ```bash
-# 1. Periksa status berkas yang diubah
-git status
+node .agents/02-session-state/session-manager.js
+```
+Baca file `.agents/02-session-state/active-session.json` untuk mengetahui `active_goal`, `completed_milestones`, dan batasan yang sudah disepakati (`established_constraints`).
 
-# 2. Stage berkas yang relevan (hindari berkas sampah)
-git add <file-paths>
+### Langkah 3: Eksekusi Tugas Sesuai Bab PRD
+Terapkan perubahan kode sesuai spesifikasi di `PRD.md` dan standar rekayasa di `.agents/rules/`. Terapkan pemisahan peran Builder vs Reviewer tanpa *self-review*.
 
-# 3. Buat commit deskriptif
-git commit -m "feat(modul): deskripsi perubahan ringkas"
+### Langkah 4: Mutakhirkan `active-session.json` (*Update State*)
+Setelah kode diverifikasi lolos:
+1. Perbarui timestamp `last_updated`.
+2. Pindahkan milestone yang telah selesai ke `completed_milestones` dengan status `VERIFIED_PASS`.
+3. Perbarui status bab pada `prd_coverage_tracker`.
+4. Perbarui `next_actionable_steps`.
 
-# 4. WAJIB pull rebase terlebih dahulu sebelum push
+### Langkah 5: Tarik Ulang Sebelum Push & Kirim ke GitHub (*Sync Push Mandate*)
+Tepat sebelum push, lakukan rebase untuk mengantisipasi commit tim lain yang masuk selama development:
+```bash
+git add .
+git commit -m "feat(modul): deskripsi perubahan dan pembaruan session state"
 git pull --rebase origin dev
-
-# 5. Jika ada konflik, selesaikan secara hati-hati, lalu push ke dev
 git push origin dev
 ```
 
@@ -54,3 +69,4 @@ git push origin dev
 1. **DILARANG** melakukan `git push --force` ke branch `dev` maupun `main`.
 2. **DILARANG** melakukan commit langsung ke `main` untuk pekerjaan development harian.
 3. **DILARANG** melakukan *stash pop* atau *hard reset* tanpa memeriksa perbedaan kode (*diff*) terlebih dahulu.
+4. **DILARANG** menyertakan file kredensial rahasia (`.env.local`, `DOC_SERVICES.md`) ke dalam git commit.

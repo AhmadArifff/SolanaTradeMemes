@@ -438,9 +438,52 @@ pnpm test
 
 ---
 
+---
+
+## 15. Matriks Konfigurasi Lingkungan (Environment & Configuration Matrix)
+
+Dokumen ini menetapkan seluruh variabel konfigurasi yang wajib disiapkan di berkas `.env.example` dan lingkungan aplikasi monorepo. Panduan langkah demi langkah untuk memperoleh seluruh API Key dan endpoint ini dapat dibaca pada [CONFIG_GUIDE.md](./CONFIG_GUIDE.md).
+
+### 15.1 Klasifikasi Sensitivitas Konfigurasi
+
+| Kategori | Parameter Lingkungan | Nilai Default / Rekomendasi | Tingkat Sensitivitas | Deskripsi & Kegunaan |
+| :--- | :--- | :--- | :--- | :--- |
+| **Solana RPC** | `NEXT_PUBLIC_SOLANA_RPC_URL` | `https://mainnet.helius-rpc.com/?api-key=...` | Publik / Restricted | Endpoint Private RPC untuk pembacaan saldo dan broadcast transaksi tanpa rate limit. |
+| **Solana RPC** | `NEXT_PUBLIC_SOLANA_WSS_URL` | `wss://mainnet.helius-rpc.com/?api-key=...` | Publik / Restricted | Koneksi WebSocket untuk streaming slot blockhash dan status konfirmasi transaksi secara sub-detik. |
+| **Solana RPC** | `NEXT_PUBLIC_SOLANA_CLUSTER` | `mainnet-beta` | Non-Sensitif | Target klaster Solana (`mainnet-beta` untuk live, `devnet` untuk staging/testing). |
+| **Solana RPC** | `NEXT_PUBLIC_FALLBACK_RPC_URL` | `https://solana-mainnet.g.alchemy.com/v2/...` | Publik / Restricted | Endpoint RPC sekunder jika penyedia utama mengalami gangguan koneksi atau HTTP 429. |
+| **Solana RPC** | `NEXT_PUBLIC_HELIUS_API_KEY` | *(Opsional)* | Restricted | Kunci API khusus Helius untuk estimasi Priority Fee dinamis (`getPriorityFeeEstimate`). |
+| **DEX & Trade** | `NEXT_PUBLIC_PUMPPORTAL_API_URL` | `https://pumpportal.fun/api/trade-local` | Non-Sensitif | Endpoint perakit instruksi transaksi mentah (unsigned v0 serialized transaction). |
+| **DEX & Trade** | `NEXT_PUBLIC_DEXSCREENER_API_URL`| `https://api.dexscreener.com/latest/dex/tokens` | Non-Sensitif | Sumber polling data harga token, likuiditas, dan market cap real-time. |
+| **Trading Defaults**| `NEXT_PUBLIC_DEFAULT_SLIPPAGE_BPS`| `1000` (10%) | Non-Sensitif | Nilai toleransi slippage bawaan saat input pertama kali dibuka. |
+| **Trading Defaults**| `NEXT_PUBLIC_DEFAULT_PRIORITY_FEE`| `0.005` SOL | Non-Sensitif | Nilai Priority Fee bawaan per transaksi untuk mempercepat inklusi blok validator. |
+| **Trading Defaults**| `NEXT_PUBLIC_COMPUTE_UNIT_LIMIT` | `200000` | Non-Sensitif | Batas Compute Unit per transaksi instruksi Pump.fun. |
+| **Trading Defaults**| `NEXT_PUBLIC_RENT_EXEMPT_RESERVE`| `0.005` SOL | Non-Sensitif | Cadangan saldo minimal SOL per dompet agar tidak habis total saat beli (menjamin gas fee sell). |
+| **Local Vault IDB** | `VAULT_IDB_DATABASE_NAME` | `solana_terminal_vault_v1` | Konfigurasi Internal | Nama basis data IndexedDB untuk penyimpanan ciphertext dompet terenkripsi. |
+| **Local Vault IDB** | `LEDGER_IDB_DATABASE_NAME`| `solana_terminal_ledger_v1`| Konfigurasi Internal | Nama basis data IndexedDB untuk buku besar riwayat transaksi beli/jual persisten. |
+| **Crypto Constants**| `KDF_PBKDF2_ITERATIONS` | `100000` | Konfigurasi Internal | Jumlah iterasi derivasi kunci Web Crypto API (standar NIST). |
+| **Crypto Constants**| `AUTO_LOCK_TIMEOUT_MS` | `900000` (15 menit) | Konfigurasi Internal | Durasi inaktivitas sebelum kunci di RAM dimusnahkan secara otomatis. |
+| **Polling Worker** | `PRICE_POLL_INTERVAL_ACTIVE_MS` | `5000` (5 detik) | Konfigurasi Internal | Interval polling TanStack Query saat jendela browser aktif. |
+| **Polling Worker** | `PRICE_POLL_INTERVAL_BLUR_MS` | `30000` (30 detik) | Konfigurasi Internal | Interval polling perlambatan cerdas saat jendela browser terminimalisasi/blur. |
+| **Cloud (Opsional)**| `NEXT_PUBLIC_SUPABASE_URL` | *(Opsional)* | Non-Sensitif | URL Supabase jika mengaktifkan sinkronisasi Watchlist token / preset non-sensitif antar-perangkat. |
+| **Cloud (Opsional)**| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | *(Opsional)* | Publik | Kunci anonim Supabase dengan Row Level Security (RLS) ketat. |
+
+### 15.2 Batasan Keras Terhadap Supabase (Zero-Custody Boundary)
+
+Jika konfigurasi Supabase diaktifkan dalam proyek:
+1. **DILARANG KERAS** menyimpan kunci privat (baik mentah maupun terenkripsi), Master Password, seed phrase, atau alamat kunci privat ke dalam tabel Supabase.
+2. Supabase **HANYA BOLEH** digunakan untuk fitur sekunder non-sensitif:
+   * Sinkronisasi daftar token favorit (*Watchlist & Bookmarked CA*).
+   * Sinkronisasi preferensi antarmuka (tema warna, susunan kolom tabel).
+   * Berbagi rekap statistik publik (*Public Trade Showcase* tanpa detail dompet privat).
+3. Seluruh data keuangan sensitif dan operasional eksekusi tetap **100% diproses di IndexedDB lokal dan RAM peramban**.
+
+---
+
 ### Verifikasi Kepatuhan Standar (Delivery Gate Verification)
 - [x] **Zero Em-Dash Policy:** Dokumen sepenuhnya bebas dari karakter em dash (mematuhi aturan R-02).
 - [x] **Monorepo Architecture:** Menggunakan struktur Turborepo + pnpm workspaces (`apps/web`, `packages/solana-engine`, `packages/crypto-vault`, `packages/types`, `packages/ui`).
 - [x] **Pure Client-Side Model:** Tidak ada ketergantungan database backend terpusat atau penandatanganan transaksi di server Vercel.
 - [x] **Kriptografi Standar Industri:** Menggunakan Web Crypto API (PBKDF2 SHA-256 + AES-GCM-256) dan IndexedDB.
 - [x] **Arsitektur Resilien:** Mendukung VersionedTransaction v0, Private RPC routing, dan `Promise.allSettled`.
+- [x] **Konfigurasi Lengkap:** Matriks variabel lingkungan Bab 15 mencakup Private RPC, DEX API, IndexedDB, dan batasan Supabase.

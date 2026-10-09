@@ -19,6 +19,8 @@ Seluruh agen wajib membaca dan mematuhi aturan spesifik sesuai domain pengerjaan
 
 | Domain | Berkas Aturan | Deskripsi |
 | :--- | :--- | :--- |
+| **Panduan Tim & Kolaborasi** | [DOC.md](./DOC.md) | Panduan resmi tim, topologi monorepo, SOP 5 langkah, dan peta PRD. |
+| **Pelacak Sesi Aktif** | [.agents/02-session-state/active-session.json](./.agents/02-session-state/active-session.json) | State machine pelacak milestone, sprint, dan status 15 bab PRD. |
 | **Aturan Mutlak & Larangan Keras** | [.agents/rules/00-core-guardrails.md](./.agents/rules/00-core-guardrails.md) | Proteksi isolasi kunci privat, zero server signing, larangan em dash, dan larangan dead code. |
 | **Disiplin Alur Kerja & Review Gate** | [.agents/rules/01-workflow-discipline.md](./.agents/rules/01-workflow-discipline.md) | Siklus OODA, Review Gate 7 Pilar, dan pemisahan Builder vs Reviewer. |
 | **Arsitektur Monorepo (Turborepo)** | [.agents/rules/10-monorepo-standards.md](./.agents/rules/10-monorepo-standards.md) | Struktur `apps/*` dan `packages/*`, batasan dependensi, dan resolusi pnpm. |
@@ -64,3 +66,12 @@ Untuk pengerjaan proyek ini, agen mengorkestrasikan kombinasi skill global dan s
 
 * **[Knowledge Base Overview](./.agents/knowledge/README.md)**: Panduan rujukan teknis.
 * **[Daftar Kasus Bug & Solusi Terminal](./.agents/knowledge/terminal-cases.md)**: Preseden penanganan rate limit RPC Solana, PumpPortal quirks, dan pemulihan IndexedDB.
+
+---
+
+## 6. Pelacakan Status Sesi & Panduan Pengembangan
+
+* **[Active Session State](./.agents/02-session-state/active-session.json)**: Status pelacakan kemajuan PRD dan batasan arsitektur terkunci lintas tim.
+* **[DEVELOPMENT_GUIDE.md](./DEVELOPMENT_GUIDE.md)**: Panduan kolaborasi harian tim, alur kerja git branch dev, dan review gate 7 pilar.
+* **[CONFIG_GUIDE.md](./CONFIG_GUIDE.md)**: Panduan step-by-step setup RPC Helius, PumpPortal, DexScreener, dan variabel .env.local.
+
