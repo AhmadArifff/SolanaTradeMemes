@@ -72,6 +72,7 @@ export const TradeLocalRequestSchema = z.object({
 });
 
 export type TradeLocalRequest = z.infer<typeof TradeLocalRequestSchema>;
+export type TradeLocalRequestInput = z.input<typeof TradeLocalRequestSchema>;
 
 export interface TradeExecutionTask {
   publicKey: string;

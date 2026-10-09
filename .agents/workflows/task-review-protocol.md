@@ -1,28 +1,39 @@
-# Protokol Review Task (7 Pilar Evaluasi)
+# Workflow: Task Review Protocol (Evaluasi 7 Pilar)
 
-> **Kapan Digunakan:** Wajib dievaluasi sebelum agen mulai menulis atau memodifikasi kode pada tugas apapun.
+> **Mandatory Pre-Development Gate**: Setiap tugas baru atau perubahan fitur wajib melalui evaluasi 7 pilar ini sebelum penulisan kode dimulai.
 
 ---
 
-## 7 Pilar Evaluasi Sebelum Pengerjaan
+## 7 Pilar Evaluasi Tugas:
 
-1. **Pilar 1: Scope & Boundaries**
-   * Apakah tugas ini relevan dengan spesifikasi di PRD v1.1?
-   * Apakah ada potensi scope creep yang melanggar arsitektur pure client-side?
-2. **Pilar 2: Keamanan Kunci Privat (Zero-Leakage)**
-   * Apakah ada kemungkinan kode baru mengekspos kunci ke luar peramban?
-   * Apakah data di memori dibersihkan saat sesi berakhir?
-3. **Pilar 3: Isolasi Paket Monorepo**
-   * Di paket mana kode ini seharusnya berada (`@repo/solana-engine`, `@repo/crypto-vault`, `@repo/types`, `@repo/ui`, atau `apps/web`)?
-   * Apakah ada pelanggaran batas dependensi (misal mengimpor UI ke dalam engine)?
-4. **Pilar 4: Performa & Latensi Eksekusi**
-   * Apakah proses penandatanganan dan penyiaran tetap asinkron dan non-blocking?
-   * Apakah polling harga TanStack Query sudah menerapkan adaptive interval?
-5. **Pilar 5: Konsistensi UI/UX & Tema**
-   * Apakah antarmuka mematuhi tema Cyberpunk Dark Mode DeFi?
-   * Apakah angka dan persentase disajikan secara presisi?
-6. **Pilar 6: Penanganan Kegagalan (Edge Cases & Fallbacks)**
-   * Bagaimana jika panggilan PumpPortal gagal atau RPC mengembalikan HTTP 429?
-   * Apakah `Promise.allSettled` menangani kegagalan parsial dengan anggun?
-7. **Pilar 7: Rollback & Modularitas**
-   * Jika kode ini ditarik kembali, apakah dampaknya terisolasi tanpa merusak paket lain?
+```mermaid
+flowchart TD
+    T["Penerimaan Task Baru"] --> P1["1. Scope: Batasan Tugas"]
+    P1 --> P2["2. Schema: Dampak Data & Type"]
+    P2 --> P3["3. Security: Sanitasi & Auth"]
+    P3 --> P4["4. Performance: Kecepatan & Memori"]
+    P4 --> P5["5. UX: Aksesibilitas & Responsivitas"]
+    P5 --> P6["6. Edge Cases: Skenario Kegagalan"]
+    P6 --> P7["7. Rollback: Rencana Mitigasi"]
+    P7 --> G{"Disetujui Pengguna?"}
+    G -- "Ya" --> DEV["Mulai Pengembangan (Build)"]
+    G -- "Tidak" --> REV["Klarifikasi Persyaratan"]
+```
+
+1. **Scope (Cakupan Tugas)**:
+   - Tentukan secara jelas file apa saja yang akan dibuat atau diubah.
+   - Cegah refactoring liar pada modul lain yang tidak berhubungan.
+2. **Schema (Dampak Skema Data / Tipe)**:
+   - Identifikasi apakah ada perubahan field database, skema tipe data, atau struktur payload API.
+3. **Security (Keamanan & Otorisasi)**:
+   - Verifikasi otorisasi hak akses user/wallet.
+   - Sanitasi input dan proteksi data sensitif.
+4. **Performance (Kinerja & Sumber Daya)**:
+   - Periksa potensi query lambat, memory leak, atau loop rekursif.
+5. **UX & Accessibility (Pengalaman Pengguna)**:
+   - Pastikan layout adaptif di layar desktop dan mobile.
+   - Periksa kontras rasio warna (WCAG AA).
+6. **Edge Cases (Penanganan Kasus Ekstrem)**:
+   - Tangani skenario koneksi putus, saldo nol, input kosong, atau double click submission.
+7. **Rollback Plan (Rencana Pembatalan)**:
+   - Pastikan kode dapat dikembalikan dengan aman jika terjadi kegagalan saat implementasi.

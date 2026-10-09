@@ -4,11 +4,11 @@
   "tagline": "Pure Client-Side Multi-Wallet Trading Terminal for Solana Memecoins",
   "repository": "https://github.com/AhmadArifff/SolanaTradeMemes.git",
   "active_branch": "dev",
-  "version": "1.1.0",
-  "status": "IN_PROGRESS",
-  "active_goal": "Inisialisasi Kubah Kriptografi Terisolasi @repo/crypto-vault (PBKDF2 + AES-GCM-256 + idb + Memory Zeroing + Vitest)",
-  "last_updated": "2026-10-09T07:25:00+07:00",
-  "current_sprint": "Sprint 1: Architecture, Monorepo Scaffolding, Shared Types, & Crypto Vault Security",
+  "version": "1.9.1",
+  "status": "READY_FOR_RELEASE",
+  "active_goal": "Penyelesaian Real-Time Dynamic Model Discovery Berdasarkan Paket API Key, Searchable Selector, Limit Badge & Bab 17 PRD",
+  "last_updated": "2026-10-09T23:18:00+07:00",
+  "current_sprint": "Sprint 7: Multi-Provider AI Engine (BYOK), Anti-Prompt Injection & Side-by-Side Comparative Audit",
   "completed_milestones": [
     {
       "id": "M0_PRD_AND_DOCS_INITIALIZATION",
@@ -52,48 +52,86 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-09",
       "details": "Dokumentasi resmi DOC.md, active-session.json, dan CLI session-manager.js untuk mencegah context drift antar-sesi developer/agen."
-    }
-  ],
-  "in_progress_milestones": [
+    },
     {
       "id": "M5_CRYPTO_VAULT_SECURITY",
       "title": "Kubah Kriptografi Lokal: Web Crypto API PBKDF2 + AES-GCM-256, IndexedDB idb, Memory Purge, & Vitest",
       "prd_sections": ["Bab 5.4", "Bab 7.1", "Bab 10.1", "Bab 11.2"],
-      "status": "IN_PROGRESS",
-      "target_deliverables": [
-        "packages/crypto-vault/package.json",
-        "packages/crypto-vault/src/kdf.ts",
-        "packages/crypto-vault/src/cipher.ts",
-        "packages/crypto-vault/src/storage.ts",
-        "packages/crypto-vault/src/sanitize.ts",
-        "packages/crypto-vault/src/index.ts",
-        "packages/crypto-vault/test/vault.test.ts"
-      ]
-    }
-  ],
-  "upcoming_milestones": [
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Paket @repo/crypto-vault selesai dengan implementasi kdf.ts (PBKDF2 100k iterasi), cipher.ts (AES-GCM 256-bit + 128-bit tag), storage.ts (IndexedDB wrapper idb), sanitize.ts (RAM zero-out buffer.fill(0)), vault.ts (CryptoVault session manager). 12/12 unit test Vitest lolos dan 0 TypeScript errors."
+    },
     {
       "id": "M6_SOLANA_ENGINE_PUMPPORTAL",
       "title": "Mesin Transaksi Solana: PumpPortal trade-local, VersionedTx v0 Signer, Parallel Broadcaster, & Vitest",
       "prd_sections": ["Bab 5.3", "Bab 7.2", "Bab 10.3", "Bab 11.1"],
-      "status": "PENDING"
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Paket @repo/solana-engine selesai dengan implementasi pumpportal.ts (pemanggilan trade-local endpoint murni dari browser), signer.ts (deserialisasi VersionedTransaction v0 dan Keypair signing lokal di RAM), broadcast.ts (Promise.allSettled paralel ke Private RPC Helius/QuickNode dengan skipPreflight: true dan penanganan kode error 0x1770, 0x1, 429), emergency.ts (Panic Sell All likuidasi serentak). 9/9 unit test Vitest lolos dan 0 TypeScript errors."
     },
     {
       "id": "M7_SHARED_UI_DESIGN_SYSTEM",
       "title": "Desain Sistem UI Cyberpunk Dark DeFi: Radix UI Primitives, Tailwind CSS, Data Table, & Status Badges",
       "prd_sections": ["Bab 4.1", "Bab 5", "Bab 8"],
-      "status": "PENDING"
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Paket @repo/ui selesai dengan implementasi Button (variants: default, buy, sell, panic, outline, ghost), Badge (variants: buy, sell, fulfilled, rejected, pending dengan pulsing dot), Card (glassmorphism backdrop blur dan glow effect), Dialog (Radix UI modal unlock/import), Input (terminal monospace dengan prefix/suffix), dan Table (dense font-mono responsive). 0 TypeScript errors."
     },
     {
       "id": "M8_TERMINAL_FRONTEND_APPS_WEB",
       "title": "Aplikasi Terminal Next.js 15 Client SPA: Zustand store, TanStack Query 5s adaptive polling, Panic Sell, & Trade Ledger PnL",
       "prd_sections": ["Bab 5.2", "Bab 7.3", "Bab 7.4", "Bab 7.5", "Bab 10.2", "Bab 10.4", "Bab 10.5"],
-      "status": "PENDING"
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Aplikasi Next.js 15 apps/web selesai dan lolos build produksi via Turborepo. Dilengkapi Zustand useTerminalStore, TanStack Query useTokenPrice 5s adaptive polling, useTradeLedger Weighted Average Cost Basis Realized PnL IndexedDB, Navbar RPC latency ping, WalletManager multi-wallet, TradingPanel multi-wallet buy/sell & Panic Sell All, dialog unlock/import, dan ekspor CSV/JSON ledger. tsc --noEmit dan pnpm run build lolos 100%."
     },
     {
       "id": "M9_ZERO_LEAK_AUDIT_AND_DELIVERY",
       "title": "Audit Keamanan Kunci Zero-Exfiltration, Penanganan Edge Cases RPC HTTP 429, & Delivery Gate",
       "prd_sections": ["Bab 11", "Bab 12", "Bab 13"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Audit zero-key-exfiltration statis lolos 100% (hanya 2 network egress: fetch /trade-local hanya mengirim public key, fetch DexScreener token price; signing murni di RAM). Build monorepo lolos 100%. Mandatory Delivery Gate 4-blok berstatus PASS penuh tanpa em dash (R-02) dan WCAG AA compliant."
+    },
+    {
+      "id": "M10_OKX_IMPORT_UI_AND_ENV_HARDENING",
+      "title": "Antarmuka Impor Dompet Gaya OKX (Seed Phrase 12/24 Kata & Auto-Sanitasi Paste) serta Pengamanan Kunci Rahasia RPC",
+      "prd_sections": ["Bab 7.1", "Bab 10.1", "Bab 15"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Pembersihan total API key hardcoded dari kode sumber (hanya dibaca via NEXT_PUBLIC_SOLANA_RPC_URL dan .env.local). Implementasi ImportWalletModal bergaya OKX Wallet dengan tab segmented (Seed phrase vs Private key), dropdown 12/24 kata, grid input bernomor 2 kolom, dan auto-sanitasi paste (otomatis membersihkan pola '1. laugh' dsb). Derivasi Solana Keypair m/44'/501'/0'/0' BIP-39 dengan 16/16 test Vitest lolos."
+    },
+    {
+      "id": "M11_LIVE_CANDLESTICK_CHART_AND_REALTIME_PRICE_FIX",
+      "title": "Integrasi Live Candlestick Chart (TradingView Engine) & Perbaikan Akurasi Harga Real-Time DexScreener",
+      "prd_sections": ["Bab 7.3", "Bab 10.2"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Root cause analisis tuntas: (1) Menyematkan komponen TokenCandlestickChart interaktif TradingView DexScreener embed dengan volume, timeframe, dan tautan pump.fun; (2) Memperbaiki sorting pair DexScreener berdasarkan likuiditas USD tertinggi sehingga mengambil pair aktif pumpswap/raydium (bukan pair awal bonding curve likuiditas $0 yang macet); (3) Mengkalkulasi konversi harga SOL presisi dan memformat angka mikro-kripto agar tidak terpotong menjadi 0.00000000 SOL; (4) Polling interval dipercepat ke 3000ms saat tab aktif."
+    },
+    {
+      "id": "M12_TOKEN_INTELLIGENCE_PUMPFUN_TABS_AND_DRAGGABLE_ANALYZER",
+      "title": "Token Intelligence: Bottom Tabs Analitik (Trades, Holders, About gaya Pump.fun) & Draggable Token Analyzer Modal",
+      "prd_sections": ["Bab 16.1", "Bab 16.2", "Bab 16.3", "Bab 16.4", "Bab 16.5", "Bab 16.6", "Bab 16.7"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Berhasil membangun dan memvalidasi: (1) TokenAnalyticsTabs di bawah chart (Trades live feed dengan filters All/Buys/Sells, Holders dengan distribusi % supply & PnL dari Helius RPC on-chain getTokenLargestAccounts, About dengan summary & tautan sosial resmi); (2) Tombol [⚡ Analyze Token] di header grafik; (3) Draggable floating modal dengan pointer tracking; (4) Deterministic Safety Score (0-100), Hype check, Holder PnL status; (5) Level Diskon ATH -50% & -70%; (6) Peringatan darurat otomatis drop >70% (Critical Dump / Rugpull Alert) dengan tombol Panic Sell All; (7) Backtest Signal Logger ke IndexedDB/LocalStorage."
+    },
+    {
+      "id": "M14_MULTI_PROVIDER_AI_BYOK_AND_COMPARISON_ENGINE",
+      "title": "Multi-Provider AI Engine (BYOK), Anti-Prompt-Injection, Quota Tracker, & Side-by-Side Comparison",
+      "prd_sections": ["Bab 17.1", "Bab 17.2", "Bab 17.3", "Bab 17.4", "Bab 17.5", "Bab 17.6"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Berhasil membangun dan memvalidasi: (1) AiProviderService dengan adapter untuk Gemini (2.0/1.5 Flash), OpenAI (GPT-4o/mini), Claude (3.5 Sonnet/Haiku), DeepSeek (V3/R1), Kimi, OpenRouter, dan Groq; (2) XML <untrusted_token_data> delimiter sandbox anti-prompt injection; (3) Anti-slop persona cynical degen auditor; (4) Modal konfigurasi kunci API AiConfigModal dengan pengujian koneksi langsung; (5) Token quota meter & cost tracker; (6) Tab Side-by-Side Comparison (Rule-Based vs AI Audit) pada TokenAnalyzerModal; (7) Tombol AI Config pada Navbar."
+    }
+  ],
+  "in_progress_milestones": [],
+  "upcoming_milestones": [
+    {
+      "id": "M15_BACKTEST_VISUAL_DASHBOARD_AND_LIVE_SNIPER_RUN",
+      "title": "Backtest Visual Dashboard & Pengujian Eksekusi Multi-Dompet Live Sniper",
+      "prd_sections": ["Bab 10", "Bab 13", "Bab 16.7"],
       "status": "PENDING"
     }
   ],
@@ -104,19 +142,21 @@
     "Bab 4: Arsitektur Monorepo Turborepo + pnpm Workspaces": "VERIFIED_PASS",
     "Bab 5: Review & Rekomendasi Tech Stack": "VERIFIED_PASS",
     "Bab 6: Diagram Alur & Interaksi Antar-Paket": "VERIFIED_PASS",
-    "Bab 7.1: Kubah Kriptografi Lokal (PBKDF2 + AES-GCM + idb)": "IN_PROGRESS",
-    "Bab 7.2: Mesin Solana (PumpPortal trade-local & v0 Signer)": "READY_FOR_DEV",
-    "Bab 7.3: Pemantauan Harga Real-Time (5s Adaptive Polling)": "READY_FOR_DEV",
-    "Bab 7.4: Buku Besar Riwayat & Realized PnL (Weighted Avg Cost)": "READY_FOR_DEV",
-    "Bab 7.5: Likuidasi Darurat Panic Sell All & Rent Reserve Guard": "READY_FOR_DEV",
-    "Bab 8: Alur Pipeline Data & Eksekusi 8 Langkah": "MAPPED",
-    "Bab 9: Batasan Ruang Lingkup (In-Scope vs Out-of-Scope)": "MAPPED",
-    "Bab 10: User Stories & Acceptance Criteria (Epic 1 s.d. 5)": "MAPPED",
-    "Bab 11: Persyaratan Non-Fungsional (Latensi & Zero-Trust)": "MAPPED",
-    "Bab 12: Matriks Penanganan Error & Skenario Tepi": "MAPPED",
-    "Bab 13: Metrik Keberhasilan & Target Peluncuran": "MAPPED",
+    "Bab 7.1: Kubah Kriptografi Lokal (PBKDF2 + AES-GCM + idb)": "VERIFIED_PASS",
+    "Bab 7.2: Mesin Solana (PumpPortal trade-local & v0 Signer)": "VERIFIED_PASS",
+    "Bab 7.3: Pemantauan Harga Real-Time (5s Adaptive Polling)": "VERIFIED_PASS",
+    "Bab 7.4: Buku Besar Riwayat & Realized PnL (Weighted Avg Cost)": "VERIFIED_PASS",
+    "Bab 7.5: Likuidasi Darurat Panic Sell All & Rent Reserve Guard": "VERIFIED_PASS",
+    "Bab 8: Alur Pipeline Data & Eksekusi 8 Langkah": "VERIFIED_PASS",
+    "Bab 9: Batasan Ruang Lingkup (In-Scope vs Out-of-Scope)": "VERIFIED_PASS",
+    "Bab 10: User Stories & Acceptance Criteria (Epic 1 s.d. 5)": "VERIFIED_PASS",
+    "Bab 11: Persyaratan Non-Fungsional (Latensi & Zero-Trust)": "VERIFIED_PASS",
+    "Bab 12: Matriks Penanganan Error & Skenario Tepi": "VERIFIED_PASS",
+    "Bab 13: Metrik Keberhasilan & Target Peluncuran": "VERIFIED_PASS",
     "Bab 14: Panduan Setup & Scaffolding Monorepo": "VERIFIED_PASS",
-    "Bab 15: Matriks Konfigurasi Lingkungan & Kunci Layanan": "VERIFIED_PASS"
+    "Bab 15: Matriks Konfigurasi Lingkungan & Kunci Layanan": "VERIFIED_PASS",
+    "Bab 16: Token Intelligence, Pump.fun Tabs & Draggable Analyzer": "VERIFIED_PASS",
+    "Bab 17: Multi-Provider AI Engine (BYOK) & Side-by-Side Comparison": "VERIFIED_PASS"
   },
   "established_constraints": [
     "Branch Mandate: Seluruh pengembangan aktif, perbaikan bug, dan penambahan fitur WAJIB dilakukan di branch dev. Dilarang commit/push langsung ke main.",
@@ -135,15 +175,15 @@
     "Continuous Session Sync: Setiap kali ada perubahan fitur atau prompt baru, wajib perbarui active-session.json, buat git commit, dan push ke origin dev agar agen di device/sesi lain tersinkronisasi."
   ],
   "active_agent_pipeline": {
-    "current_stage": "STAGE_2_CRYPTO_VAULT_DEVELOPMENT",
-    "active_role": "crypto-vault-engineer",
-    "next_role": "solana-engine-engineer",
-    "reviewer_role": "tech-critic / qa-engineer"
+    "current_stage": "STAGE_6_SECURITY_AUDIT_AND_DELIVERY_GATE",
+    "active_role": "security-engineer / tech-critic",
+    "next_role": "qa-engineer",
+    "reviewer_role": "tech-critic / user-test-professional"
   },
   "next_actionable_steps": [
-    "Selesaikan git rebase dan push active-session.json serta DOC.md ke branch dev",
-    "Implementasi paket packages/crypto-vault: kdf.ts (PBKDF2), cipher.ts (AES-GCM), storage.ts (IndexedDB idb), sanitize.ts (buffer zeroing)",
-    "Buat unit test packages/crypto-vault/test/vault.test.ts menggunakan Vitest dan fake-indexeddb",
-    "Verifikasi Delivery Gate pada packages/crypto-vault sebelum lanjut ke packages/solana-engine"
+    "Jalankan terminal lokal dengan perintah pnpm --filter web dev",
+    "Buka browser di http://localhost:3000 untuk mengakses UI Cyberpunk Dark DeFi",
+    "Buka kunci kubah master password dan impor dompet uji atau gunakan dompet yang tersimpan di IndexedDB",
+    "Lakukan pengujian swap/trading dengan token Solana memecoin"
   ]
 }

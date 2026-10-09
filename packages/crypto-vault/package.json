@@ -1,0 +1,26 @@
+{
+  "name": "@repo/crypto-vault",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Kubah Kriptografi Lokal: Web Crypto API (PBKDF2 + AES-GCM-256), IndexedDB storage terenkripsi, dan protokol sanitasi RAM",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@repo/types": "workspace:*",
+    "@solana/web3.js": "^1.99.0",
+    "bip39": "^3.1.0",
+    "bs58": "^6.0.0",
+    "ed25519-hd-key": "^2.0.0",
+    "idb": "^8.0.2"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "fake-indexeddb": "^6.0.0",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.7"
+  }
+}

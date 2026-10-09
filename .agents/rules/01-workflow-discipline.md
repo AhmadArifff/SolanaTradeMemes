@@ -1,42 +1,31 @@
-# 01-workflow-discipline.md: Disiplin Alur Kerja & Review Gate
+# Rule 01: Workflow Discipline & OODA Execution
 
-Dokumen ini mengatur tata tertib eksekusi teknis agen guna memastikan setiap perubahan kode terencana, terverifikasi, dan bebas dari cacat regresi.
-
----
-
-## 1. Siklus Kerja OODA Loop
-
-Setiap agen wajib menjalankan siklus **OODA (Observe -> Orient -> Decide -> Act)**:
-1. **Observe:** Membaca berkas target, memeriksa dependensi di `package.json`, dan memahami konteks permintaan pengguna.
-2. **Orient:** Mengidentifikasi batasan arsitektur (PRD.md, batasan monorepo, isolasi keamanan Web Crypto).
-3. **Decide:** Menyusun rencana perubahan terstruktur, memilih tool yang tepat, dan memetakan acceptance criteria.
-4. **Act:** Menulis atau mengedit kode secara presisi dan terarah.
+> **Status**: MUTLAK (Pemandu kedisiplinan alur eksekusi multi-agen)
 
 ---
 
-## 2. Review Gate 7 Pilar
-
-Sebelum menulis kode atau membuat berkas baru, agen wajib meninjau 7 pilar kelayakan:
-1. **Scope:** Apakah perubahan berada dalam ruang lingkup MVP v1.1 di PRD?
-2. **Security Impact:** Apakah ada risiko kebocoran kunci privat atau eksposur RAM?
-3. **Monorepo Boundary:** Apakah kode ditempatkan di paket yang tepat (`@repo/solana-engine`, `@repo/crypto-vault`, `@repo/types`, atau `apps/web`)?
-4. **Performance:** Apakah fungsi penandatanganan dan penyiaran tetap non-blocking?
-5. **UX Impact:** Apakah tampilan konsisten dengan tema cyberpunk dark mode terminal?
-6. **Edge Cases:** Bagaimana penanganan jika PumpPortal timeout atau RPC rate limit?
-7. **Rollback Plan:** Apakah perubahan modular dan mudah di-revert jika terjadi kegagalan?
+## 1. Siklus OODA Loop
+Setiap tugas dijalankan melalui 4 fase berulang:
+- **Observe**: Baca instruksi pengguna, periksa status terkini di `session-state.json`, dan inspeksi kode yang ada.
+- **Orient**: Evaluasi dampak terhadap arsitektur, batasan terkunci (`established_constraints`), dan potensi regresi.
+- **Decide**: Susun rencana terstruktur dan tentukan owner peran pelaksana.
+- **Act**: Eksekusi perubahan kode secara atomik, rapi, dan teruji.
 
 ---
 
-## 3. Pemisahan Peran Builder vs Reviewer (No Self-Review)
-
-1. Kode yang dibuat oleh peran Builder (`frontend-engineer`, `backend-engineer`) wajib melalui evaluasi kritis Reviewer (`qa-engineer` atau `tech-critic`).
-2. Builder dilarang mengklaim fitur selesai tanpa memvalidasi skenario error dan kegagalan tepi (*edge cases*).
+## 2. Review Gate Sebelum Pengembangan
+Sebelum menulis baris kode fitur baru, wajib menjalankan evaluasi 7 pilar sesuai [task-review-protocol.md](../workflows/task-review-protocol.md):
+1. **Scope**: Apakah cakupan tugas jelas dan tidak mengalami scope-creep?
+2. **Schema**: Apakah ada perubahan tipe data, tabel, atau smart contract account?
+3. **Security**: Apakah input disanitasi dan otorisasi divalidasi?
+4. **Performance**: Apakah ada operasi N+1, memory leak, atau loop boros komputasi?
+5. **UX / Accessibility**: Apakah responsivitas layar dan kontras warna memenuhi standar?
+6. **Edge Cases**: Apakah kasus jaringan lambat, saldo tidak cukup, atau input kosong sudah ditangani?
+7. **Rollback Plan**: Apakah perubahan aman dan dapat dikembalikan jika terjadi kegagalan?
 
 ---
 
-## 4. Batas Putaran Revisi (Circuit Breaker)
-
-Jika terjadi siklus perbaikan berulang sebanyak $\ge$ 3 kali pada satu masalah yang sama antara QA dan Builder:
-1. Hentikan otomatisasi secara terhormat.
-2. Jelaskan kendala fundamental kepada pengguna secara transparan.
-3. Minta arahan pengguna (*Human-in-the-Loop*) sebelum melanjutkan.
+## 3. Higienitas Kode & Eliminasi Zombie Artifacts
+1. **Bersihkan Kode Sementara**: Hapus console.log debug mentah, komentar sisa iterasi, atau file scratch sementara sebelum tugas ditandai selesai.
+2. **Komentar Kode Berkualitas**: Berikan komentar hanya pada logika yang kompleks atau keputusan arsitektural penting. Hindari komentar berlebihan yang hanya menjelaskan hal sepele.
+3. **Circuit Breaker Loop**: Jika sebuah tugas mengalami revisi >= 3 kali berturut-turut pada siklus QA-Builder, hentikan loop dan minta panduan langsung kepada pengguna.
