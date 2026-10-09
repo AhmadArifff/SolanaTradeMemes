@@ -4,11 +4,11 @@
   "tagline": "Pure Client-Side Multi-Wallet Trading Terminal for Solana Memecoins",
   "repository": "https://github.com/AhmadArifff/SolanaTradeMemes.git",
   "active_branch": "dev",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "status": "READY_FOR_RELEASE",
-  "active_goal": "Penyelesaian Token Intelligence, Bottom Tabs Analitik (Trades, Holders, About gaya Pump.fun), & Draggable Token Analyzer Modal (M12)",
-  "last_updated": "2026-10-09T22:16:00+07:00",
-  "current_sprint": "Sprint 6: Token Intelligence, Pump.fun Analytics Tabs & Draggable AI Analyzer",
+  "active_goal": "Penyelesaian Multi-Provider AI Engine (BYOK), Anti-Prompt Injection, Quota Tracker, & Side-by-Side Comparison (M14)",
+  "last_updated": "2026-10-09T23:00:00+07:00",
+  "current_sprint": "Sprint 7: Multi-Provider AI Engine (BYOK), Anti-Prompt Injection & Side-by-Side Comparative Audit",
   "completed_milestones": [
     {
       "id": "M0_PRD_AND_DOCS_INITIALIZATION",
@@ -116,13 +116,21 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-09",
       "details": "Berhasil membangun dan memvalidasi: (1) TokenAnalyticsTabs di bawah chart (Trades live feed dengan filters All/Buys/Sells, Holders dengan distribusi % supply & PnL dari Helius RPC on-chain getTokenLargestAccounts, About dengan summary & tautan sosial resmi); (2) Tombol [⚡ Analyze Token] di header grafik; (3) Draggable floating modal dengan pointer tracking; (4) Deterministic Safety Score (0-100), Hype check, Holder PnL status; (5) Level Diskon ATH -50% & -70%; (6) Peringatan darurat otomatis drop >70% (Critical Dump / Rugpull Alert) dengan tombol Panic Sell All; (7) Backtest Signal Logger ke IndexedDB/LocalStorage."
+    },
+    {
+      "id": "M14_MULTI_PROVIDER_AI_BYOK_AND_COMPARISON_ENGINE",
+      "title": "Multi-Provider AI Engine (BYOK), Anti-Prompt-Injection, Quota Tracker, & Side-by-Side Comparison",
+      "prd_sections": ["Bab 17.1", "Bab 17.2", "Bab 17.3", "Bab 17.4", "Bab 17.5", "Bab 17.6"],
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Berhasil membangun dan memvalidasi: (1) AiProviderService dengan adapter untuk Gemini (2.0/1.5 Flash), OpenAI (GPT-4o/mini), Claude (3.5 Sonnet/Haiku), DeepSeek (V3/R1), Kimi, OpenRouter, dan Groq; (2) XML <untrusted_token_data> delimiter sandbox anti-prompt injection; (3) Anti-slop persona cynical degen auditor; (4) Modal konfigurasi kunci API AiConfigModal dengan pengujian koneksi langsung; (5) Token quota meter & cost tracker; (6) Tab Side-by-Side Comparison (Rule-Based vs AI Audit) pada TokenAnalyzerModal; (7) Tombol AI Config pada Navbar."
     }
   ],
   "in_progress_milestones": [],
   "upcoming_milestones": [
     {
-      "id": "M13_BACKTEST_TRACKING_AND_LIVE_SNIPER_RUN",
-      "title": "Backtest Tracking Engine & Pengujian Eksekusi Multi-Dompet Live Sniper",
+      "id": "M15_BACKTEST_VISUAL_DASHBOARD_AND_LIVE_SNIPER_RUN",
+      "title": "Backtest Visual Dashboard & Pengujian Eksekusi Multi-Dompet Live Sniper",
       "prd_sections": ["Bab 10", "Bab 13", "Bab 16.7"],
       "status": "PENDING"
     }
@@ -147,7 +155,8 @@
     "Bab 13: Metrik Keberhasilan & Target Peluncuran": "VERIFIED_PASS",
     "Bab 14: Panduan Setup & Scaffolding Monorepo": "VERIFIED_PASS",
     "Bab 15: Matriks Konfigurasi Lingkungan & Kunci Layanan": "VERIFIED_PASS",
-    "Bab 16: Token Intelligence, Pump.fun Tabs & Draggable Analyzer": "VERIFIED_PASS"
+    "Bab 16: Token Intelligence, Pump.fun Tabs & Draggable Analyzer": "VERIFIED_PASS",
+    "Bab 17: Multi-Provider AI Engine (BYOK) & Side-by-Side Comparison": "VERIFIED_PASS"
   },
   "established_constraints": [
     "Branch Mandate: Seluruh pengembangan aktif, perbaikan bug, dan penambahan fitur WAJIB dilakukan di branch dev. Dilarang commit/push langsung ke main.",

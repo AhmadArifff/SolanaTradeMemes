@@ -8,6 +8,7 @@ import { TradingPanel } from '../components/TradingPanel';
 import { TokenCandlestickChart } from '../components/TokenCandlestickChart';
 import { TokenAnalyticsTabs } from '../components/TokenAnalyticsTabs';
 import { TokenAnalyzerModal } from '../components/TokenAnalyzerModal';
+import { AiConfigModal } from '../components/AiConfigModal';
 import { TradeHistoryLedger } from '../components/TradeHistoryLedger';
 import { UnlockVaultModal } from '../components/UnlockVaultModal';
 import { ImportWalletModal } from '../components/ImportWalletModal';
@@ -50,6 +51,7 @@ export default function TerminalPage() {
   const [isUnlockModalOpen, setIsUnlockModalOpen] = useState(false);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [isAnalyzerModalOpen, setIsAnalyzerModalOpen] = useState(false);
+  const [isAiConfigModalOpen, setIsAiConfigModalOpen] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [rpcLatencyMs, setRpcLatencyMs] = useState<number | null>(null);
 
@@ -118,6 +120,7 @@ export default function TerminalPage() {
       <Navbar
         onOpenUnlockModal={() => setIsUnlockModalOpen(true)}
         onOpenImportModal={() => setIsImportModalOpen(true)}
+        onOpenAiConfigModal={() => setIsAiConfigModalOpen(true)}
         onRefreshBalances={handleRefreshBalances}
         isRefreshing={isRefreshing}
         rpcLatencyMs={rpcLatencyMs}
@@ -219,6 +222,12 @@ export default function TerminalPage() {
           onPanicSellTrigger={handlePanicSellFromModal}
         />
       )}
+
+      {/* Modal Konfigurasi AI Multi-Provider (BYOK) */}
+      <AiConfigModal
+        isOpen={isAiConfigModalOpen}
+        onClose={() => setIsAiConfigModalOpen(false)}
+      />
     </div>
   );
 }

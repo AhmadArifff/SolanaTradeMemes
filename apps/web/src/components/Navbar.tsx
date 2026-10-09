@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Lock, Unlock, Plus, RefreshCw, Zap, ShieldCheck } from 'lucide-react';
+import { Lock, Unlock, Plus, RefreshCw, Zap, ShieldCheck, Bot } from 'lucide-react';
 import { Button, Badge } from '@repo/ui';
 import { useTerminalStore } from '../store/useTerminalStore';
 
@@ -11,6 +11,7 @@ interface NavbarProps {
   onRefreshBalances: () => void;
   isRefreshing: boolean;
   rpcLatencyMs: number | null;
+  onOpenAiConfigModal?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -19,6 +20,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onRefreshBalances,
   isRefreshing,
   rpcLatencyMs,
+  onOpenAiConfigModal,
 }) => {
   const { isUnlocked, lockVault, wallets } = useTerminalStore();
 
@@ -78,6 +80,20 @@ export const Navbar: React.FC<NavbarProps> = ({
             <Plus className="w-3.5 h-3.5 text-cyan-400" />
             <span>Impor Dompet</span>
           </Button>
+
+          {/* AI Config Button */}
+          {onOpenAiConfigModal && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onOpenAiConfigModal}
+              className="text-xs font-mono border-purple-900/50 text-purple-300 hover:bg-purple-950/40 hover:text-purple-200"
+              title="Atur Kunci API AI Provider (BYOK)"
+            >
+              <Bot className="w-3.5 h-3.5 text-purple-400" />
+              <span className="hidden sm:inline">AI Config</span>
+            </Button>
+          )}
 
           {/* Vault Lock / Unlock Button */}
           {isUnlocked ? (
