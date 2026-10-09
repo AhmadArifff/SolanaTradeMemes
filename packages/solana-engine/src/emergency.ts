@@ -1,9 +1,9 @@
 import { Connection, Keypair } from '@solana/web3.js';
 import type { BroadcastResult } from '@repo/types';
-import { getTokenBalance } from './connection.js';
-import { fetchTradeLocalTransaction } from './pumpportal.js';
-import { signVersionedTransaction } from './signer.js';
-import { broadcastParallelBatch, type ParallelBatchTask } from './broadcast.js';
+import { getTokenBalance } from './connection';
+import { fetchTradeLocalTransaction } from './pumpportal';
+import { signVersionedTransaction } from './signer';
+import { broadcastParallelBatch, type ParallelBatchTask } from './broadcast';
 
 export interface PanicSellWalletTarget {
   publicKey: string;

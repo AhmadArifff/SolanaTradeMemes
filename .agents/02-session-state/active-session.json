@@ -4,11 +4,11 @@
   "tagline": "Pure Client-Side Multi-Wallet Trading Terminal for Solana Memecoins",
   "repository": "https://github.com/AhmadArifff/SolanaTradeMemes.git",
   "active_branch": "dev",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "status": "IN_PROGRESS",
-  "active_goal": "Implementasi Aplikasi Frontend Terminal Next.js 15 Client SPA apps/web (Zustand Store, TanStack Query 5s Adaptive Polling, Panic Sell All, & Trade Ledger Realized PnL)",
-  "last_updated": "2026-10-09T08:11:00+07:00",
-  "current_sprint": "Sprint 4: Next.js 15 Terminal SPA Frontend & Trade Ledger",
+  "active_goal": "Audit Keamanan Kunci Zero-Exfiltration, Penanganan Edge Cases RPC HTTP 429, & Delivery Gate Protocol (M9_ZERO_LEAK_AUDIT_AND_DELIVERY)",
+  "last_updated": "2026-10-09T08:29:00+07:00",
+  "current_sprint": "Sprint 5: Zero-Leak Security Audit, Monorepo Build Verification, & Delivery Gate",
   "completed_milestones": [
     {
       "id": "M0_PRD_AND_DOCS_INITIALIZATION",
@@ -76,35 +76,30 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-09",
       "details": "Paket @repo/ui selesai dengan implementasi Button (variants: default, buy, sell, panic, outline, ghost), Badge (variants: buy, sell, fulfilled, rejected, pending dengan pulsing dot), Card (glassmorphism backdrop blur dan glow effect), Dialog (Radix UI modal unlock/import), Input (terminal monospace dengan prefix/suffix), dan Table (dense font-mono responsive). 0 TypeScript errors."
-    }
-  ],
-  "in_progress_milestones": [
+    },
     {
       "id": "M8_TERMINAL_FRONTEND_APPS_WEB",
       "title": "Aplikasi Terminal Next.js 15 Client SPA: Zustand store, TanStack Query 5s adaptive polling, Panic Sell, & Trade Ledger PnL",
       "prd_sections": ["Bab 5.2", "Bab 7.3", "Bab 7.4", "Bab 7.5", "Bab 10.2", "Bab 10.4", "Bab 10.5"],
-      "status": "IN_PROGRESS",
-      "target_deliverables": [
-        "apps/web/package.json",
-        "apps/web/src/app/layout.tsx",
-        "apps/web/src/app/page.tsx",
-        "apps/web/src/store/useTerminalStore.ts",
-        "apps/web/src/hooks/useTokenPrice.ts",
-        "apps/web/src/hooks/useTradeLedger.ts",
-        "apps/web/src/components/WalletManager.tsx",
-        "apps/web/src/components/TradingPanel.tsx",
-        "apps/web/src/components/TradeHistoryLedger.tsx"
-      ]
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Aplikasi Next.js 15 apps/web selesai dan lolos build produksi via Turborepo. Dilengkapi Zustand useTerminalStore, TanStack Query useTokenPrice 5s adaptive polling, useTradeLedger Weighted Average Cost Basis Realized PnL IndexedDB, Navbar RPC latency ping, WalletManager multi-wallet, TradingPanel multi-wallet buy/sell & Panic Sell All, dialog unlock/import, dan ekspor CSV/JSON ledger. tsc --noEmit dan pnpm run build lolos 100%."
     }
   ],
-  "upcoming_milestones": [
+  "in_progress_milestones": [
     {
       "id": "M9_ZERO_LEAK_AUDIT_AND_DELIVERY",
       "title": "Audit Keamanan Kunci Zero-Exfiltration, Penanganan Edge Cases RPC HTTP 429, & Delivery Gate",
       "prd_sections": ["Bab 11", "Bab 12", "Bab 13"],
-      "status": "PENDING"
+      "status": "IN_PROGRESS",
+      "target_deliverables": [
+        "Verifikasi Turborepo pnpm run build lolos 100%",
+        "Static zero-key-exfiltration audit lolos 100%",
+        "Laporan Mandatory Delivery Gate 4-blok (Hard Gate, Purpose Gate, Liveliness, Craftsmanship)"
+      ]
     }
   ],
+  "upcoming_milestones": [],
   "prd_coverage_tracker": {
     "Bab 1: Ringkasan Eksekutif (Pure Client-Side Zero Backend)": "VERIFIED_PASS",
     "Bab 2: Problem Statement & Latar Belakang Industri": "VERIFIED_PASS",
@@ -114,15 +109,15 @@
     "Bab 6: Diagram Alur & Interaksi Antar-Paket": "VERIFIED_PASS",
     "Bab 7.1: Kubah Kriptografi Lokal (PBKDF2 + AES-GCM + idb)": "VERIFIED_PASS",
     "Bab 7.2: Mesin Solana (PumpPortal trade-local & v0 Signer)": "VERIFIED_PASS",
-    "Bab 7.3: Pemantauan Harga Real-Time (5s Adaptive Polling)": "READY_FOR_DEV",
-    "Bab 7.4: Buku Besar Riwayat & Realized PnL (Weighted Avg Cost)": "READY_FOR_DEV",
-    "Bab 7.5: Likuidasi Darurat Panic Sell All & Rent Reserve Guard": "READY_FOR_DEV",
+    "Bab 7.3: Pemantauan Harga Real-Time (5s Adaptive Polling)": "VERIFIED_PASS",
+    "Bab 7.4: Buku Besar Riwayat & Realized PnL (Weighted Avg Cost)": "VERIFIED_PASS",
+    "Bab 7.5: Likuidasi Darurat Panic Sell All & Rent Reserve Guard": "VERIFIED_PASS",
     "Bab 8: Alur Pipeline Data & Eksekusi 8 Langkah": "VERIFIED_PASS",
-    "Bab 9: Batasan Ruang Lingkup (In-Scope vs Out-of-Scope)": "MAPPED",
-    "Bab 10: User Stories & Acceptance Criteria (Epic 1 s.d. 5)": "MAPPED",
-    "Bab 11: Persyaratan Non-Fungsional (Latensi & Zero-Trust)": "MAPPED",
-    "Bab 12: Matriks Penanganan Error & Skenario Tepi": "MAPPED",
-    "Bab 13: Metrik Keberhasilan & Target Peluncuran": "MAPPED",
+    "Bab 9: Batasan Ruang Lingkup (In-Scope vs Out-of-Scope)": "VERIFIED_PASS",
+    "Bab 10: User Stories & Acceptance Criteria (Epic 1 s.d. 5)": "VERIFIED_PASS",
+    "Bab 11: Persyaratan Non-Fungsional (Latensi & Zero-Trust)": "VERIFIED_PASS",
+    "Bab 12: Matriks Penanganan Error & Skenario Tepi": "VERIFIED_PASS",
+    "Bab 13: Metrik Keberhasilan & Target Peluncuran": "VERIFIED_PASS",
     "Bab 14: Panduan Setup & Scaffolding Monorepo": "VERIFIED_PASS",
     "Bab 15: Matriks Konfigurasi Lingkungan & Kunci Layanan": "VERIFIED_PASS"
   },
@@ -143,17 +138,15 @@
     "Continuous Session Sync: Setiap kali ada perubahan fitur atau prompt baru, wajib perbarui active-session.json, buat git commit, dan push ke origin dev agar agen di device/sesi lain tersinkronisasi."
   ],
   "active_agent_pipeline": {
-    "current_stage": "STAGE_5_TERMINAL_FRONTEND_DEVELOPMENT",
-    "active_role": "frontend-terminal-engineer",
-    "next_role": "qa-engineer / security-engineer",
+    "current_stage": "STAGE_6_SECURITY_AUDIT_AND_DELIVERY_GATE",
+    "active_role": "security-engineer / tech-critic",
+    "next_role": "qa-engineer",
     "reviewer_role": "tech-critic / user-test-professional"
   },
   "next_actionable_steps": [
-    "Commit dan push implementasi @repo/ui beserta pembaruan session state ke branch dev",
-    "Scaffold aplikasi apps/web menggunakan Next.js 15 App Router SPA dengan Tailwind CSS",
-    "Konfigurasi Zustand store (useTerminalStore.ts) mengintegrasikan @repo/crypto-vault dan @repo/solana-engine",
-    "Implementasi TanStack Query useTokenPrice (DexScreener API) dengan 5s adaptive polling interval",
-    "Implementasi useTradeLedger (IndexedDB trade_history) dengan kalkulasi Weighted Average Cost Basis Realized PnL",
-    "Rakit antarmuka terminal utama: WalletManager, TradingPanel, PanicSellButton, dan TradeHistoryLedger"
+    "Commit dan push implementasi Next.js 15 apps/web serta session state v1.5.0 ke branch dev",
+    "Lakukan static audit zero-key-exfiltration",
+    "Sajikan Mandatory Delivery Gate 4-blok laporan lengkap",
+    "Berikan petunjuk pnpm --filter web dev untuk eksekusi langsung pengguna"
   ]
 }

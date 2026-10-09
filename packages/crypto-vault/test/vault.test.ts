@@ -12,7 +12,7 @@ import {
   CryptoVault,
   clearAllEncryptedWallets,
   closeVaultDB,
-} from '../src/index.js';
+} from '../src/index';
 
 describe('@repo/crypto-vault - Kubah Kriptografi Terisolasi', () => {
   beforeEach(async () => {

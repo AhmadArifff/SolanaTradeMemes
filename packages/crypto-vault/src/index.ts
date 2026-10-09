@@ -2,19 +2,19 @@ export {
   generateSalt,
   generateIv,
   deriveKeyFromPassword,
-} from './kdf.js';
+} from './kdf';
 
 export {
   encryptPrivateKey,
   decryptPrivateKey,
-} from './cipher.js';
+} from './cipher';
 
 export {
   zeroOutMemory,
   zeroOutBuffers,
   purgeMapOfKeys,
   withSecureKey,
-} from './sanitize.js';
+} from './sanitize';
 
 export {
   getVaultDB,
@@ -25,6 +25,6 @@ export {
   deleteEncryptedWallet,
   clearAllEncryptedWallets,
   closeVaultDB,
-} from './storage.js';
+} from './storage';
 
-export { CryptoVault } from './vault.js';
+export { CryptoVault } from './vault';

@@ -14,7 +14,7 @@ import {
   mapSolanaTransactionError,
   broadcastParallelBatch,
   fetchTradeLocalTransaction,
-} from '../src/index.js';
+} from '../src/index';
 
 describe('@repo/solana-engine - Mesin Transaksi Solana v0', () => {
   describe('1. Instansiasi Keypair & Validasi Kunci (signer.ts)', () => {

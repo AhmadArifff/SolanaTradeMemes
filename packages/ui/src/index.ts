@@ -1,16 +1,16 @@
-export { cn } from './lib/utils.js';
+export { cn } from './lib/utils';
 
 export {
   Badge,
   badgeVariants,
   type BadgeProps,
-} from './components/badge.js';
+} from './components/badge';
 
 export {
   Button,
   buttonVariants,
   type ButtonProps,
-} from './components/button.js';
+} from './components/button';
 
 export {
   Card,
@@ -19,7 +19,7 @@ export {
   CardTitle,
   CardDescription,
   CardContent,
-} from './components/card.js';
+} from './components/card';
 
 export {
   Dialog,
@@ -32,12 +32,12 @@ export {
   DialogFooter,
   DialogTitle,
   DialogDescription,
-} from './components/dialog.js';
+} from './components/dialog';
 
 export {
   Input,
   type InputProps,
-} from './components/input.js';
+} from './components/input';
 
 export {
   Table,
@@ -48,4 +48,4 @@ export {
   TableRow,
   TableCell,
   TableCaption,
-} from './components/table.js';
+} from './components/table';

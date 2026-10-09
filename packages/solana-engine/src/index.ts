@@ -4,16 +4,16 @@ export {
   getSolBalance,
   getTokenBalance,
   getBatchSolBalances,
-} from './connection.js';
+} from './connection';
 
 export {
   fetchTradeLocalTransaction,
-} from './pumpportal.js';
+} from './pumpportal';
 
 export {
   createKeypairFromSecretKey,
   signVersionedTransaction,
-} from './signer.js';
+} from './signer';
 
 export {
   mapSolanaTransactionError,
@@ -21,10 +21,10 @@ export {
   broadcastParallelBatch,
   confirmTransaction,
   type ParallelBatchTask,
-} from './broadcast.js';
+} from './broadcast';
 
 export {
   executePanicSellAll,
   type PanicSellWalletTarget,
   type PanicSellOptions,
-} from './emergency.js';
+} from './emergency';

@@ -6,15 +6,15 @@ import {
   type ImportWalletInput,
   type EncryptedWalletRecord,
 } from '@repo/types';
-import { generateSalt, generateIv, deriveKeyFromPassword } from './kdf.js';
-import { encryptPrivateKey, decryptPrivateKey } from './cipher.js';
-import { zeroOutMemory, purgeMapOfKeys } from './sanitize.js';
+import { generateSalt, generateIv, deriveKeyFromPassword } from './kdf';
+import { encryptPrivateKey, decryptPrivateKey } from './cipher';
+import { zeroOutMemory, purgeMapOfKeys } from './sanitize';
 import {
   saveEncryptedWallet,
   getAllEncryptedWallets,
   getEncryptedWalletById,
   deleteEncryptedWallet,
-} from './storage.js';
+} from './storage';
 
 export class CryptoVault {
   private activeDecryptedKeys = new Map<string, Uint8Array>();
