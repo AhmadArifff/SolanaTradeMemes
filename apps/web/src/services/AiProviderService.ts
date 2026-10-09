@@ -166,24 +166,55 @@ Remember: Respond strictly with the requested JSON schema.`;
         const cleanModel = config.model.startsWith('models/')
           ? config.model
           : `models/${config.model}`;
-        const res = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/${cleanModel}:generateContent?key=${config.apiKey}`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents: [{ role: 'user', parts: [{ text: `${SYSTEM_PROMPT_HARDENED}\n\n${userPrompt}` }] }],
-              generationConfig: {
-                responseMimeType: 'application/json',
-                temperature: 0.2,
-              },
-            }),
-          }
-        );
+
+        const sendGeminiRequest = async (targetModel: string) => {
+          return fetch(
+            `https://generativelanguage.googleapis.com/v1beta/${targetModel}:generateContent?key=${config.apiKey}`,
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                contents: [{ role: 'user', parts: [{ text: `${SYSTEM_PROMPT_HARDENED}\n\n${userPrompt}` }] }],
+                generationConfig: {
+                  responseMimeType: 'application/json',
+                  temperature: 0.2,
+                },
+              }),
+            }
+          );
+        };
+
+        let res = await sendGeminiRequest(cleanModel);
+
+        // Auto-retry 1x jika server Google mengalami lonjakan trafik (503) atau 429
+        if (res.status === 503 || res.status === 429) {
+          await new Promise((resolve) => setTimeout(resolve, 1500));
+          res = await sendGeminiRequest(cleanModel);
+        }
+
+        // Jika model spesifik/eksperimental masih 503 (overload), otomatis coba model stabil gemini-2.0-flash
+        if (res.status === 503 && cleanModel !== 'models/gemini-2.0-flash') {
+          res = await sendGeminiRequest('models/gemini-2.0-flash');
+        }
+
         if (!res.ok) {
           const errText = await res.text();
-          throw new Error(`Gemini API Error (${res.status}): ${errText}`);
+          let friendlyMsg = `Gemini API Error (${res.status}): ${errText}`;
+          try {
+            const parsedErr = JSON.parse(errText);
+            if (res.status === 503 || parsedErr.error?.code === 503) {
+              friendlyMsg = `Server Google untuk model ${config.model} sedang mengalami lonjakan beban trafik (503 High Demand). Silakan ganti ke model yang lebih stabil seperti gemini-2.0-flash / gemini-1.5-flash di menu AI Config atau coba kembali sesaat lagi.`;
+            } else if (res.status === 429) {
+              friendlyMsg = `Batas kuota request (Rate Limit 429) tercapai untuk API Key Google Anda. Mohon tunggu 30 detik sebelum mencoba lagi.`;
+            } else if (parsedErr.error?.message) {
+              friendlyMsg = `Gemini: ${parsedErr.error.message}`;
+            }
+          } catch {
+            // Ignore parse error
+          }
+          throw new Error(friendlyMsg);
         }
+
         const data = await res.json();
         rawResponseText = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
         promptTokens = data.usageMetadata?.promptTokenCount || 400;

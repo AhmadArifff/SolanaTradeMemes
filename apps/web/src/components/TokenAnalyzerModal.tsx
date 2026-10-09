@@ -616,9 +616,45 @@ export function TokenAnalyzerModal({
                   </div>
 
                   {aiError && (
-                    <div className="p-3 bg-rose-500/15 border border-rose-500/40 rounded-xl text-rose-300 text-xs flex items-center gap-2">
-                      <AlertOctagon className="w-4 h-4 text-rose-400 shrink-0" />
-                      <span>{aiError}</span>
+                    <div className="p-3.5 bg-rose-500/15 border border-rose-500/40 rounded-xl text-rose-300 text-xs space-y-2">
+                      <div className="flex items-start gap-2">
+                        <AlertOctagon className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+                        <span className="leading-relaxed">{aiError}</span>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-rose-500/20">
+                        <button
+                          type="button"
+                          onClick={handleRunAiAnalysis}
+                          disabled={isAiLoading}
+                          className="px-2.5 py-1 bg-rose-500/20 hover:bg-rose-500/30 text-rose-200 border border-rose-500/40 rounded-lg text-[10px] font-bold flex items-center gap-1 transition-colors"
+                        >
+                          <RotateCcw className={`w-3 h-3 ${isAiLoading ? 'animate-spin' : ''}`} />
+                          Coba Lagi
+                        </button>
+                        {aiConfig?.provider === 'gemini' && aiConfig.model !== 'gemini-2.0-flash' && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const updated = { ...aiConfig, model: 'gemini-2.0-flash' };
+                              localStorage.setItem('solana_terminal_ai_config', JSON.stringify(updated));
+                              setAiConfig(updated);
+                              setTimeout(() => handleRunAiAnalysis(), 100);
+                            }}
+                            className="px-2.5 py-1 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-200 border border-cyan-500/40 rounded-lg text-[10px] font-bold flex items-center gap-1 transition-colors"
+                          >
+                            <Zap className="w-3 h-3 text-cyan-400" />
+                            Beralih ke Gemini 2.0 Flash
+                          </button>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => setIsAiConfigOpen(true)}
+                          className="px-2.5 py-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-lg text-[10px] font-medium flex items-center gap-1 transition-colors ml-auto"
+                        >
+                          <Settings className="w-3 h-3" />
+                          Ganti Model di AI Config
+                        </button>
+                      </div>
                     </div>
                   )}
 
