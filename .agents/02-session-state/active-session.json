@@ -5,10 +5,10 @@
   "repository": "https://github.com/AhmadArifff/SolanaTradeMemes.git",
   "active_branch": "dev",
   "version": "1.5.0",
-  "status": "IN_PROGRESS",
-  "active_goal": "Audit Keamanan Kunci Zero-Exfiltration, Penanganan Edge Cases RPC HTTP 429, & Delivery Gate Protocol (M9_ZERO_LEAK_AUDIT_AND_DELIVERY)",
-  "last_updated": "2026-10-09T08:29:00+07:00",
-  "current_sprint": "Sprint 5: Zero-Leak Security Audit, Monorepo Build Verification, & Delivery Gate",
+  "status": "READY_FOR_RELEASE",
+  "active_goal": "Seluruh 15 Bab PRD & Milestone M0 s.d. M9 Telah Selesai Diimplementasikan, Diverifikasi, dan Siap Dijalankan",
+  "last_updated": "2026-10-09T08:31:00+07:00",
+  "current_sprint": "Sprint 5: Monorepo Delivery, Zero-Leak Audit, & Production Readiness",
   "completed_milestones": [
     {
       "id": "M0_PRD_AND_DOCS_INITIALIZATION",
@@ -84,21 +84,17 @@
       "status": "VERIFIED_PASS",
       "verified_at": "2026-10-09",
       "details": "Aplikasi Next.js 15 apps/web selesai dan lolos build produksi via Turborepo. Dilengkapi Zustand useTerminalStore, TanStack Query useTokenPrice 5s adaptive polling, useTradeLedger Weighted Average Cost Basis Realized PnL IndexedDB, Navbar RPC latency ping, WalletManager multi-wallet, TradingPanel multi-wallet buy/sell & Panic Sell All, dialog unlock/import, dan ekspor CSV/JSON ledger. tsc --noEmit dan pnpm run build lolos 100%."
-    }
-  ],
-  "in_progress_milestones": [
+    },
     {
       "id": "M9_ZERO_LEAK_AUDIT_AND_DELIVERY",
       "title": "Audit Keamanan Kunci Zero-Exfiltration, Penanganan Edge Cases RPC HTTP 429, & Delivery Gate",
       "prd_sections": ["Bab 11", "Bab 12", "Bab 13"],
-      "status": "IN_PROGRESS",
-      "target_deliverables": [
-        "Verifikasi Turborepo pnpm run build lolos 100%",
-        "Static zero-key-exfiltration audit lolos 100%",
-        "Laporan Mandatory Delivery Gate 4-blok (Hard Gate, Purpose Gate, Liveliness, Craftsmanship)"
-      ]
+      "status": "VERIFIED_PASS",
+      "verified_at": "2026-10-09",
+      "details": "Audit zero-key-exfiltration statis lolos 100% (hanya 2 network egress: fetch /trade-local hanya mengirim public key, fetch DexScreener token price; signing murni di RAM). Build monorepo lolos 100%. Mandatory Delivery Gate 4-blok berstatus PASS penuh tanpa em dash (R-02) dan WCAG AA compliant."
     }
   ],
+  "in_progress_milestones": [],
   "upcoming_milestones": [],
   "prd_coverage_tracker": {
     "Bab 1: Ringkasan Eksekutif (Pure Client-Side Zero Backend)": "VERIFIED_PASS",
@@ -144,9 +140,9 @@
     "reviewer_role": "tech-critic / user-test-professional"
   },
   "next_actionable_steps": [
-    "Commit dan push implementasi Next.js 15 apps/web serta session state v1.5.0 ke branch dev",
-    "Lakukan static audit zero-key-exfiltration",
-    "Sajikan Mandatory Delivery Gate 4-blok laporan lengkap",
-    "Berikan petunjuk pnpm --filter web dev untuk eksekusi langsung pengguna"
+    "Jalankan terminal lokal dengan perintah pnpm --filter web dev",
+    "Buka browser di http://localhost:3000 untuk mengakses UI Cyberpunk Dark DeFi",
+    "Buka kunci kubah master password dan impor dompet uji atau gunakan dompet yang tersimpan di IndexedDB",
+    "Lakukan pengujian swap/trading dengan token Solana memecoin"
   ]
 }
