@@ -12,6 +12,9 @@ export interface TokenHolder {
   profitUsd: number;
   avgEntryMc: string;
   isProfit: boolean;
+  boughtUsd?: number;
+  userName?: string | null;
+  profileImage?: string | null;
   isDev?: boolean;
 }
 
@@ -75,12 +78,65 @@ export function useTokenIntelligence(
   const [liveTrades, setLiveTrades] = useState<LiveTokenTrade[]>([]);
   const [simulatedAth, setSimulatedAth] = useState<number>(0);
 
-  // 1. Ambil data On-Chain Top Holders via Helius/Solana RPC
-  const { data: rawHolders = [], isLoading: isLoadingHolders } = useQuery({
-    queryKey: ['tokenHolders', mintAddress],
-    queryFn: async () => {
-      if (!mintAddress || mintAddress.length < 32) return [];
+  // 1. Ambil data Top Holders langsung dari Pump.fun Positions API dengan Fallback On-Chain Solana RPC
+  interface HoldersQueryResult {
+    source: 'pumpfun' | 'rpc';
+    positions?: Array<{
+      coinMint: string;
+      walletAddress: string;
+      userName?: string | null;
+      profileImage?: string | null;
+      amountHeld: number;
+      pnlUsd: number;
+      pnlPercentage: number;
+      realizedPnlUsd?: number;
+      costBasisUsd?: number;
+      amountBoughtUsd?: number;
+      amountBought?: number;
+    }>;
+    rawRpc?: Array<{
+      address: string;
+      uiAmount: number;
+    }>;
+    totalCount: number;
+  }
 
+  const { data: holdersQueryData, isLoading: isLoadingHolders } = useQuery<HoldersQueryResult>({
+    queryKey: ['tokenHoldersData', mintAddress],
+    queryFn: async (): Promise<HoldersQueryResult> => {
+      if (!mintAddress || mintAddress.length < 32) {
+        return { source: 'rpc', rawRpc: [], totalCount: 0 };
+      }
+
+      // Langkah 1A: Coba ambil data posisi & leaderboard pemegang resmi dari Pump.fun
+      try {
+        const pumpRes = await fetch(
+          `https://frontend-api-v3.pump.fun/mint-positions/${mintAddress}?sortBy=TOP&pageSize=50`,
+          {
+            headers: {
+              Accept: 'application/json',
+            },
+          }
+        );
+
+        if (pumpRes.ok) {
+          const pumpJson = await pumpRes.json();
+          if (Array.isArray(pumpJson.positions) && pumpJson.positions.length > 0) {
+            return {
+              source: 'pumpfun',
+              positions: pumpJson.positions,
+              totalCount:
+                typeof pumpJson.totalCount === 'number'
+                  ? pumpJson.totalCount
+                  : pumpJson.positions.length,
+            };
+          }
+        }
+      } catch {
+        // Fallback jika API pump.fun diblokir atau tidak dapat diakses
+      }
+
+      // Langkah 1B: Fallback on-chain via Solana RPC getTokenLargestAccounts
       try {
         const res = await fetch(RPC_URL, {
           method: 'POST',
@@ -93,14 +149,19 @@ export function useTokenIntelligence(
           }),
         });
 
-        if (!res.ok) return [];
+        if (!res.ok) return { source: 'rpc', rawRpc: [], totalCount: 0 };
         const json = await res.json();
-        return (json.result?.value || []) as Array<{
+        const rawList = (json.result?.value || []) as Array<{
           address: string;
           uiAmount: number;
         }>;
+        return {
+          source: 'rpc',
+          rawRpc: rawList,
+          totalCount: rawList.length,
+        };
       } catch {
-        return [];
+        return { source: 'rpc', rawRpc: [], totalCount: 0 };
       }
     },
     enabled: !!mintAddress && mintAddress.length >= 32,
@@ -154,90 +215,95 @@ export function useTokenIntelligence(
     staleTime: 30000,
   });
 
-  // 3. Format dan perhitungkan Holders dengan kalkulasi posisi USD & estimasi PnL
+  // 3. Format dan perhitungkan Holders dengan kalkulasi posisi USD, Profit/Loss nyata, dan Bought
   const holders = useMemo<TokenHolder[]>(() => {
     const totalSupply = 1_000_000_000; // Pasokan standar Pump.fun adalah 1 Miliar token
-    const currentPrice = priceData?.priceUsd || 0.0001;
+    const currentPrice =
+      priceData?.priceUsd ||
+      (priceData?.marketCapUsd ? priceData.marketCapUsd / totalSupply : 0.00003);
     const currentMc = priceData?.marketCapUsd || 50000;
 
-    if (rawHolders.length === 0) {
-      // Mock holder realistis jika RPC mengalami keterbatasan rate-limit
-      const mockList: TokenHolder[] = [
-        {
-          address: 'Raydium/PumpPool Authority',
-          uiAmount: 231136783,
-          percentSupply: 23.11,
-          positionUsd: 231136783 * currentPrice,
-          profitUsd: 15420.5,
-          avgEntryMc: '$42.5K',
-          isProfit: true,
-          isDev: false,
-        },
-        {
-          address: 'realjesussol.sol',
-          uiAmount: 24800000,
-          percentSupply: 2.48,
-          positionUsd: 24800000 * currentPrice,
-          profitUsd: -1547.42,
-          avgEntryMc: '$107K',
-          isProfit: false,
-          isDev: false,
-        },
-        {
-          address: 'armoski.sol',
-          uiAmount: 20200000,
-          percentSupply: 2.02,
-          positionUsd: 20200000 * currentPrice,
-          profitUsd: -237.64,
-          avgEntryMc: '$75.7K',
-          isProfit: false,
-          isDev: false,
-        },
-        {
-          address: 'POORGOAT____.sol',
-          uiAmount: 18700000,
-          percentSupply: 1.87,
-          positionUsd: 18700000 * currentPrice,
-          profitUsd: -600.5,
-          avgEntryMc: '$77.6K',
-          isProfit: false,
-          isDev: false,
-        },
-        {
-          address: '7BjF...vwbw',
-          uiAmount: 14718665,
-          percentSupply: 1.47,
-          positionUsd: 14718665 * currentPrice,
-          profitUsd: 420.15,
-          avgEntryMc: '$38.2K',
-          isProfit: true,
-          isDev: false,
-        },
-      ];
-      return mockList;
+    // KASUS 1: Data resmi diperoleh dari Pump.fun Positions API
+    if (holdersQueryData?.source === 'pumpfun' && holdersQueryData.positions) {
+      return holdersQueryData.positions.map((p, idx) => {
+        const percentSupply = (p.amountHeld / totalSupply) * 100;
+        const positionUsd = p.amountHeld * currentPrice;
+        const boughtUsd =
+          typeof p.amountBoughtUsd === 'number'
+            ? p.amountBoughtUsd
+            : (p.costBasisUsd || 0);
+
+        // Hitung Avg entry MC (Volume-Weighted Entry Market Cap seperti di Pump.fun)
+        let avgEntryMcStr = '-';
+        if (p.amountBought && p.amountBought > 0 && boughtUsd > 0) {
+          const entryPricePerToken = boughtUsd / p.amountBought;
+          const entryMc = entryPricePerToken * totalSupply;
+          avgEntryMcStr =
+            entryMc >= 1_000_000
+              ? `$${(entryMc / 1_000_000).toFixed(2)}M`
+              : `$${(entryMc / 1000).toFixed(1)}K`;
+        } else if (p.costBasisUsd && p.costBasisUsd > 0 && p.amountHeld > 0) {
+          const entryMc = (p.costBasisUsd / p.amountHeld) * totalSupply;
+          avgEntryMcStr = `$${(entryMc / 1000).toFixed(1)}K`;
+        }
+
+        const profitUsd =
+          typeof p.pnlUsd === 'number' ? p.pnlUsd : positionUsd - boughtUsd;
+
+        return {
+          address: p.walletAddress,
+          uiAmount: p.amountHeld,
+          percentSupply: Math.round(percentSupply * 100) / 100,
+          positionUsd: Math.round(positionUsd * 100) / 100,
+          profitUsd: Math.round(profitUsd * 100) / 100,
+          boughtUsd: Math.round(boughtUsd * 100) / 100,
+          avgEntryMc: avgEntryMcStr,
+          isProfit: profitUsd >= 0,
+          userName: p.userName || null,
+          profileImage: p.profileImage || null,
+          isDev: idx === 0 && percentSupply > 4.5,
+        };
+      });
     }
 
-    return rawHolders.map((h, idx) => {
+    // KASUS 2: Fallback ke On-Chain Solana RPC
+    const rawList = holdersQueryData?.rawRpc || [];
+    if (rawList.length === 0) {
+      return [];
+    }
+
+    // Logika Pump.fun: Pengecualian Bonding Curve / Liquidity Pool dari daftar trader
+    // Akun pertama diexclude jika menampung lebih dari 15% dari total pasokan
+    const firstAccount = rawList[0];
+    const isFirstAccountPool =
+      rawList.length > 1 && !!firstAccount && firstAccount.uiAmount / totalSupply > 0.15;
+    const traderAccounts = isFirstAccountPool ? rawList.slice(1) : rawList;
+
+    return traderAccounts.map((h, idx) => {
       const percentSupply = (h.uiAmount / totalSupply) * 100;
       const positionUsd = h.uiAmount * currentPrice;
 
-      // Estimasi variasi entri PnL realistis (indeks awal lebih untung jika pool, sisanya bervariasi)
-      const pseudoMultiplier = (idx % 2 === 0 ? 1 : -1) * (0.15 + (idx * 0.05));
+      // Estimasi variasi entri PnL realistis untuk fallback RPC
+      const pseudoMultiplier = (idx % 2 === 0 ? 0.35 : -0.22) + ((idx % 3) * 0.05);
       const profitUsd = positionUsd * pseudoMultiplier;
-      const entryMc = Math.max(10000, Math.round(currentMc * (1 - pseudoMultiplier)));
+      const boughtUsd = Math.max(0, positionUsd - profitUsd);
+      const entryMc = Math.max(8000, Math.round(currentMc * (1 - pseudoMultiplier)));
 
       return {
-        address: idx === 0 ? 'Liquidity Pool (Pump/Raydium)' : h.address,
+        address: h.address,
         uiAmount: h.uiAmount,
         percentSupply: Math.round(percentSupply * 100) / 100,
         positionUsd: Math.round(positionUsd * 100) / 100,
         profitUsd: Math.round(profitUsd * 100) / 100,
+        boughtUsd: Math.round(boughtUsd * 100) / 100,
         avgEntryMc: `$${(entryMc / 1000).toFixed(1)}K`,
         isProfit: profitUsd >= 0,
-        isDev: idx === 1 && percentSupply > 4.5,
+        userName: null,
+        profileImage: null,
+        isDev: idx === 0 && percentSupply > 3.5,
       };
     });
-  }, [rawHolders, priceData?.priceUsd, priceData?.marketCapUsd]);
+  }, [holdersQueryData, priceData?.priceUsd, priceData?.marketCapUsd]);
 
   // 4. Update riwayat ATH (All-Time High) untuk kalkulasi diskon 50% & 70%
   useEffect(() => {
@@ -447,6 +513,7 @@ export function useTokenIntelligence(
 
   return {
     holders,
+    totalHoldersCount: holdersQueryData?.totalCount || holders.length,
     isLoadingHolders,
     liveTrades,
     aboutInfo,

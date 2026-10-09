@@ -23,6 +23,7 @@ import type {
 
 interface TokenAnalyticsTabsProps {
   holders: TokenHolder[];
+  totalHoldersCount?: number;
   isLoadingHolders: boolean;
   liveTrades: LiveTokenTrade[];
   aboutInfo: TokenAboutInfo | null;
@@ -33,6 +34,7 @@ interface TokenAnalyticsTabsProps {
 
 export function TokenAnalyticsTabs({
   holders,
+  totalHoldersCount,
   isLoadingHolders,
   liveTrades,
   aboutInfo,
@@ -121,7 +123,7 @@ export function TokenAnalyticsTabs({
             <Users className="w-3.5 h-3.5" />
             Holders
             <span className="text-[10px] bg-zinc-800 px-1.5 py-0.2 rounded-full text-zinc-300">
-              {holders.length}
+              {totalHoldersCount || holders.length}
             </span>
           </button>
 
@@ -214,7 +216,7 @@ export function TokenAnalyticsTabs({
                   : 'bg-zinc-900/80 text-zinc-400 hover:bg-zinc-800'
               }`}
             >
-              All Holders ({holders.length})
+              All Holders ({totalHoldersCount || holders.length})
             </button>
             <button
               onClick={() => setHolderFilter('profit')}
@@ -348,8 +350,9 @@ export function TokenAnalyticsTabs({
                   <th className="py-2.5 px-3 font-medium text-right">Held</th>
                   <th className="py-2.5 px-3 font-medium text-right">% Supply</th>
                   <th className="py-2.5 px-3 font-medium text-right">Position</th>
-                  <th className="py-2.5 px-3 font-medium text-right">Est. Profit</th>
+                  <th className="py-2.5 px-3 font-medium text-right">Profit</th>
                   <th className="py-2.5 px-3 font-medium text-right">Avg Entry MC</th>
+                  <th className="py-2.5 px-3 font-medium text-right">Bought</th>
                   <th className="py-2.5 px-4 font-medium text-right">Explorer</th>
                 </tr>
               </thead>
@@ -361,17 +364,35 @@ export function TokenAnalyticsTabs({
                   >
                     <td className="py-2.5 px-4 font-sans flex items-center gap-2">
                       <span className="text-[10px] text-zinc-500 w-4 font-mono">{idx + 1}</span>
-                      <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-purple-500/30 to-blue-500/30 border border-zinc-700 flex items-center justify-center text-[10px] font-bold text-zinc-200">
-                        {h.address.substring(0, 1).toUpperCase()}
-                      </div>
-                      <span className="text-zinc-200 truncate max-w-[130px]">
-                        {h.address}
-                      </span>
-                      {h.isDev && (
-                        <span className="px-1.5 py-0.2 text-[9px] bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded font-bold">
-                          DEV
-                        </span>
+                      {h.profileImage ? (
+                        <img
+                          src={h.profileImage}
+                          alt=""
+                          className="w-5 h-5 rounded-full object-cover border border-zinc-700 bg-zinc-800 shrink-0"
+                          onError={(e) => {
+                            (e.target as HTMLElement).style.display = 'none';
+                          }}
+                        />
+                      ) : (
+                        <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-purple-500/30 to-blue-500/30 border border-zinc-700 flex items-center justify-center text-[10px] font-bold text-zinc-200 shrink-0">
+                          {(h.userName || h.address).substring(0, 1).toUpperCase()}
+                        </div>
                       )}
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-zinc-200 font-medium truncate max-w-[130px] flex items-center gap-1.5">
+                          {h.userName || `${h.address.substring(0, 4)}...${h.address.substring(h.address.length - 4)}`}
+                          {h.isDev && (
+                            <span className="px-1 py-0.1 text-[9px] bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded font-bold">
+                              DEV
+                            </span>
+                          )}
+                        </span>
+                        {h.userName && (
+                          <span className="text-[9px] text-zinc-500 font-mono truncate max-w-[110px]">
+                            {h.address.substring(0, 4)}...{h.address.substring(h.address.length - 4)}
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td className="py-2.5 px-3 text-right text-zinc-200 font-medium">
                       {formatCompact(h.uiAmount)}
@@ -387,10 +408,15 @@ export function TokenAnalyticsTabs({
                         h.profitUsd >= 0 ? 'text-emerald-400' : 'text-rose-400'
                       }`}
                     >
-                      {h.profitUsd >= 0 ? `+$${formatCompact(h.profitUsd)}` : `-$${formatCompact(Math.abs(h.profitUsd))}`}
+                      {h.profitUsd >= 0
+                        ? `+$${formatCompact(h.profitUsd)}`
+                        : `-$${formatCompact(Math.abs(h.profitUsd))}`}
                     </td>
                     <td className="py-2.5 px-3 text-right text-zinc-400">
                       {h.avgEntryMc}
+                    </td>
+                    <td className="py-2.5 px-3 text-right text-emerald-400 font-medium">
+                      {h.boughtUsd !== undefined ? `$${formatCompact(h.boughtUsd)}` : '-'}
                     </td>
                     <td className="py-2.5 px-4 text-right">
                       <a

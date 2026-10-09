@@ -41,6 +41,7 @@ export default function TerminalPage() {
 
   const {
     holders,
+    totalHoldersCount,
     isLoadingHolders,
     liveTrades,
     aboutInfo,
@@ -144,6 +145,7 @@ export default function TerminalPage() {
 
                 <TokenAnalyticsTabs
                   holders={holders}
+                  totalHoldersCount={totalHoldersCount}
                   isLoadingHolders={isLoadingHolders}
                   liveTrades={liveTrades}
                   aboutInfo={aboutInfo ?? null}
